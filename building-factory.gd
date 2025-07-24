@@ -103,7 +103,7 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 			# ┬┬┬┬┬┬┬┬┬┬ x                           
 			var aabb = get_combined_aabb(explicit_instance)
 			var overhang_z_side =  (aabb.size - aabb.end).x
-			var overhang_x_side = (-aabb.size - aabb.position).z
+			var overhang_x_side = (-aabb.size - aabb.position).z if is_90_deg else -(aabb.size - aabb.end).z 
 			var asset_extent = Vector2(aabb.size.z - overhang_z_side, aabb.size.x + overhang_x_side)
 			
 			# Correct transformation (position and rotation)
