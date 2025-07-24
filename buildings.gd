@@ -93,6 +93,8 @@ var corner_270_top = preload("res://modular_urban_apartments_facade_4k.blend/ele
 var wall_bot = preload("res://modular_urban_apartments_facade_4k.blend/elements/bot_wall.glb")
 var wall_top = preload("res://modular_urban_apartments_facade_4k.blend/elements/top_wall.glb")
 var bot_spacer = preload("res://modular_urban_apartments_facade_4k.blend/elements/bot_spacer.glb")
+var asym_corner = preload("res://modular_urban_apartments_facade_4k.blend/elements/asymmetric_corner.glb")
+var asym_corner_270 = preload("res://modular_urban_apartments_facade_4k.blend/elements/asymmetric_corner_270.glb")
 
 func define_floors(_metadata: BuildingMetadata):
 	_metadata.floor_definitions = [
@@ -114,8 +116,8 @@ func define_floors(_metadata: BuildingMetadata):
 		BuildingMetadata.FloorDefinition.new(
 			[wall, window, window2, windows],
 			null,
-			corner,
-			corner_270,
+			asym_corner,
+			asym_corner_270,
 			space_block
 		),
 		BuildingMetadata.FloorDefinition.new(

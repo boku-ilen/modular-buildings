@@ -90,12 +90,21 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 		if is_90_deg or is_270_deg:
 			var explicit_corner = explicit_instance.duplicate(7) as Node3D
 			
+			# In a later step, we create new edges that respect the corner assets;
+			# for that we use the AABB of the asset (apply transforms before export!).
+			# Because some assets might have an extend into negative coords on x/z-plane,
+			# we need to respect that overhang such that there are no gaps when filling 
+			# the walls. We swap sides (z -> x ...) because the corner is 90° from the new edge
+			# y▲                                     
+			# ┤│   ┬ ... wall element y<0                           
+			# ┤│   ┤ ... wall elment x<0                                              
+			# ┤│   @ ... coordinate system origin
+			# ┤@─────────►                           
+			# ┬┬┬┬┬┬┬┬┬┬ x                           
 			var aabb = get_combined_aabb(explicit_instance)
-			var asset_extent = -get_combined_aabb(explicit_instance).position
-			#print(get_combined_aabb(explicit_instance))
-			var overlay =  -get_combined_aabb(explicit_instance).end
-			print(overlay)
-			asset_extent = Vector2(overlay.z-aabb.position.x, overlay.z-aabb.position.x)# - Vector2(overlay.x, overlay.z)
+			var overhang_z_side =  (aabb.size - aabb.end).x
+			var overhang_x_side = (-aabb.size - aabb.position).z
+			var asset_extent = Vector2(aabb.size.z - overhang_z_side, aabb.size.x + overhang_x_side)
 			
 			# Correct transformation (position and rotation)
 			var look_dir = Vector3((edge_current[1] - edge_current[0]).x, overall_floor_height, (edge_current[1] - edge_current[0]).y).cross(Vector3.UP)
