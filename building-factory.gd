@@ -205,7 +205,11 @@ static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
 			random_index = randi() % floor_assets.size()
 			module_indices.append(random_index)
 		else:
-			random_index = module_indices[current_block_index]
+			# We have to use modulo because if the modules of each floor are not uniformly sized,
+			# the current_block_index may be bigger than in the module_indices defined in the first
+			# iteration.
+			# TODO: Think about a smarter way too approach this
+			random_index = module_indices[current_block_index % module_indices.size()]
 		
 		var scene: PackedScene = floor_assets[random_index]
 		
