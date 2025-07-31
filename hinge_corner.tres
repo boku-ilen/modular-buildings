@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c361rhlde350s"]
+
+[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://hinge_corner.gdshader" id="1_0f5bi"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_0f5bi")
+shader_parameter/bend = 0.0
