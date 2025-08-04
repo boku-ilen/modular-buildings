@@ -121,10 +121,10 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 			
 			new_edges.append([new_edge_0, new_edge_1])
 			
-			var debug = load("res://debug_mesh2.tscn").instantiate()
+			var debug = load("res://util/debug_mesh2.tscn").instantiate()
 			debug.position = Vector3(new_edge_0[0], overall_floor_height, new_edge_0[1])
 			parent.add_child(debug)
-			var debug2 = load("res://debug_mesh2.tscn").instantiate()
+			var debug2 = load("res://util/debug_mesh2.tscn").instantiate()
 			debug2.position = Vector3(new_edge_1[0], overall_floor_height, new_edge_1[1])
 			parent.add_child(debug2)
 			
@@ -132,12 +132,43 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 			
 		# An implicit corner is for dull corners (the scene should behave like a hinge)
 		else:
-			# TODO: Implement
-			pass
+			var hinge_corner_meshes = corner_instance.duplicate(7) as Node3D
+			var hinge_corner = Node3D.new()
+			_apply_hinge_material(hinge_corner_meshes, rad_to_deg(angle_to_next))
+			hinge_corner.add_child(hinge_corner_meshes)
+			
+			# Correct transformation (position and rotation)
+			var look_dir = Vector3((edge_current[1] - edge_current[0]).x, overall_floor_height, (edge_current[1] - edge_current[0]).y).cross(Vector3.UP)
+			hinge_corner.look_at_from_position(hinge_corner.position, (hinge_corner.position - look_dir))
+			#hinge_corner.rotate(Vector3.UP, 2.75)
+			var corner_position = edge_current[0]
+			hinge_corner.position = Vector3(corner_position.x, overall_floor_height, corner_position.y)
+			parent.add_child(hinge_corner)
+			
+			var aabb = get_combined_aabb(hinge_corner, AABB(), true)
+			var overhang_z_side =  (aabb.size - aabb.end).x
+			var overhang_x_side = (-aabb.size - aabb.position).z if is_90_deg else -(aabb.size - aabb.end).z 
+			var asset_extent = Vector2(aabb.size.z - overhang_z_side, aabb.size.x + overhang_x_side)
+			
+			# Create a new edge that respects the extent of the corner asset
+			var subtrahend_0 = Vector2(previous_asset_extent.x, 0)
+			var subtrahend_1 = Vector2(asset_extent.y, 0)
+			var new_edge_0 = edge_current[0] + subtrahend_0.rotated(overall_angle)
+			var new_edge_1 = edge_current[1] - subtrahend_1.rotated(overall_angle)
+			
+			new_edges.append([new_edge_0, new_edge_1])
+			var debug = load("res://util/debug_mesh2.tscn").instantiate()
+			debug.position = Vector3(new_edge_0[0], overall_floor_height, new_edge_0[1])
+			parent.add_child(debug)
+			var debug2 = load("res://util/debug_mesh2.tscn").instantiate()
+			debug2.position = Vector3(new_edge_1[0], overall_floor_height, new_edge_1[1])
+			parent.add_child(debug2)
+			
+			previous_asset_extent = asset_extent
 		
 		# FIXME: just for debugging purposes
-		var debug = load("res://debug_mesh.tscn").instantiate()
-		debug.position = Vector3(edge_current[0].x, 0, edge_current[0].y)
+		#var debug = load("res://util/debug_mesh.tscn").instantiate()
+		#debug.position = Vector3(edge_current[0].x, 0, edge_current[0].y)
 		#parent.add_child(debug)
 		
 		i += 1
@@ -298,11 +329,22 @@ static func _get_asset_width(scene:PackedScene) -> float:
 	return width
 
 
-static func get_combined_aabb(instance: Node3D, aabb: AABB = AABB()) -> AABB:
+static func get_combined_aabb(instance: Node3D, aabb: AABB = AABB(), use_custom := false) -> AABB:
 	for child in instance.get_children():
 		if not child is Node3D: continue
-		aabb = get_combined_aabb(child, aabb)
+		aabb = get_combined_aabb(child, aabb, use_custom)
 	
 	if instance is VisualInstance3D:
-		return aabb.merge(instance.get_aabb())
+		return aabb.merge(instance.get_aabb()) if not use_custom else aabb.merge(instance.get_custom_aabb())
 	return aabb
+
+
+static func _apply_hinge_material(node: Node3D, angle: float):
+	if node is VisualInstance3D:
+		for surface_material_idx in range(node.get_surface_override_material_count()):
+			node.set_surface_override_material(surface_material_idx,  preload("res://hinge_corner.tres"))
+		node.set_script(preload("res://hinge-corner.gd"))
+		node.angle = angle
+	
+	for child in node.get_children():
+		_apply_hinge_material(child, angle)
