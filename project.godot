@@ -11,5 +11,8 @@ config_version=5
 [application]
 
 config/name="Modularized Building Factory"
-config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/features=PackedStringArray("4.5", "Forward Plus")
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/plane_gizmo/plugin.cfg")
