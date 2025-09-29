@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FloorDefinition" load_steps=9 format=3 uid="uid://b17v3s3xugv1b"]
+
+[ext_resource type="PackedScene" uid="uid://b360poexwnbjf" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_270.glb" id="1_77ig3"]
+[ext_resource type="PackedScene" uid="uid://x74pywquaqu3" path="res://modular_urban_apartments_facade_4k.blend/elements/corner.glb" id="2_exswg"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="3_nk5ly"]
+[ext_resource type="PackedScene" uid="uid://7duh4bjvvd3g" path="res://modular_urban_apartments_facade_4k.blend/elements/space_block.glb" id="4_dbv1q"]
+[ext_resource type="PackedScene" uid="uid://bjq0yvaimvko4" path="res://modular_urban_apartments_facade_4k.blend/elements/wall.glb" id="5_j3shx"]
+[ext_resource type="PackedScene" uid="uid://l8lc4s27kraw" path="res://modular_urban_apartments_facade_4k.blend/elements/window.glb" id="6_lqq16"]
+[ext_resource type="PackedScene" uid="uid://g0wh4fhn1sa2" path="res://modular_urban_apartments_facade_4k.blend/elements/door.glb" id="7_77ig3"]
+[ext_resource type="PackedScene" uid="uid://bd33fhy8hj1ew" path="res://modular_urban_apartments_facade_4k.blend/elements/windows.glb" id="8_ap8wk"]
+
+[resource]
+script = ExtResource("3_nk5ly")
+walls = Array[PackedScene]([ExtResource("5_j3shx"), ExtResource("6_lqq16"), ExtResource("7_77ig3"), ExtResource("8_ap8wk")])
+corner_90 = ExtResource("2_exswg")
+corner_270 = ExtResource("1_77ig3")
+spacer_block = ExtResource("4_dbv1q")
+metadata/_custom_type_script = "uid://1cryccueq7u4"

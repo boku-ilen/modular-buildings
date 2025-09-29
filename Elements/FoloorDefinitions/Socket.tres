@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FloorDefinition" load_steps=6 format=3 uid="uid://dkellcf5aj5hj"]
+
+[ext_resource type="PackedScene" uid="uid://8ohwevajspxn" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_270_bot.glb" id="1_ruqfq"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="1_rxi43"]
+[ext_resource type="PackedScene" uid="uid://blhdcrry63pws" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_bot.glb" id="2_d1573"]
+[ext_resource type="PackedScene" uid="uid://bse6ye7drbtap" path="res://modular_urban_apartments_facade_4k.blend/elements/bot_spacer.glb" id="4_x8evn"]
+[ext_resource type="PackedScene" uid="uid://duwr21i7cskmq" path="res://modular_urban_apartments_facade_4k.blend/elements/bot_wall.glb" id="5_h1bs3"]
+
+[resource]
+script = ExtResource("1_rxi43")
+walls = Array[PackedScene]([ExtResource("5_h1bs3")])
+corner_90 = ExtResource("2_d1573")
+corner_270 = ExtResource("1_ruqfq")
+spacer_block = ExtResource("4_x8evn")
+height = 0.7
+metadata/_custom_type_script = "uid://1cryccueq7u4"
