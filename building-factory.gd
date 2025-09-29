@@ -2,6 +2,9 @@ extends Node3D
 class_name BuildingFactory
 
 
+const hinge_material: ShaderMaterial = preload("res://Elements/hinge_corner.tres")
+const hinge_corner_script: Script = preload("res://Elements/hinge-corner.gd")
+
 const MIN_SCALE := 0.9
 const MAX_SCALE := 1.1
 
