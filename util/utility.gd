@@ -39,7 +39,8 @@ static func apply_to_all_meshes_in_tree(node: Node3D, callback_mesh: Callable, c
 ## Cache results for performance.
 static var width_cache := {}
 
-static func get_asset_width(scene:PackedScene) -> float:
+
+static func get_node_width(scene: Node3D) -> float:
 	if width_cache.has(scene):
 		return width_cache[scene]
 	var inst := scene.instantiate() as Node3D

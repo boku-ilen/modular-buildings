@@ -69,14 +69,17 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 	return building_root
 
 
-static func _populate_corners(parent: Node3D, edges: Array[Array], corner: PackedScene, corner_270: PackedScene, overall_floor_height: float) -> Array[Array]:
+static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Mesh, corner_270: Mesh, overall_floor_height: float) -> Array[Array]:
 	var i = 0
 	var new_edges: Array[Array] = []
-	var corner_instance = corner.instantiate() as Node3D
-	var corner_270_instance = corner_270.instantiate() as Node3D
+	var corner_instance := MeshInstance3D.new()
+	corner_instance.mesh = corner
+	var corner_270_instance := MeshInstance3D.new()
+	corner_270_instance.mesh = corner_270
 	
 	# For the hinge, we overwrite the mesh to be able to apply a new material
-	var hinger_corner_instance = corner.instantiate() as Node3D
+	var hinge_corner_instance := MeshInstance3D.new()
+	hinge_corner_instance.mesh = corner
 	
 	var prepare_hinge_mesh = func(mesh: Mesh, idx: int):
 		var standard_mat = mesh.surface_get_material(idx)
@@ -92,7 +95,7 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 		node.mesh = node.mesh.duplicate(true)
 		node.set_script(hinge_corner_script)
 	
-	utility.apply_to_all_meshes_in_tree(hinger_corner_instance, prepare_hinge_mesh, prepare_hinge_node)
+	utility.apply_to_all_meshes_in_tree(hinge_corner_instance, prepare_hinge_mesh, prepare_hinge_node)
 	
 	# Store overall current angle for computing accurate new edge positions in consideration
 	# of the new corner assets.
@@ -163,7 +166,7 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 			
 		# An implicit corner is for dull corners (the scene should behave like a hinge)
 		else:
-			var hinge_corner = hinger_corner_instance.duplicate(7)
+			var hinge_corner = hinge_corner_instance.duplicate(7)
 			parent.add_child(hinge_corner)
 			utility.apply_to_all_meshes_in_tree(hinge_corner, 
 				func(_a, _b): pass, 
@@ -214,9 +217,10 @@ static func _populate_corners(parent: Node3D, edges: Array[Array], corner: Packe
 
 
 ## Populate a single edge with facade modules
-static func _instance_module(parent: Node3D, scene: PackedScene, module_width: float, scale_x: float,
+static func _instance_module(parent: Node3D, mesh: Mesh, module_width: float, scale_x: float,
 		p1: Vector2, dir: Vector2, cursor: float, overall_floor_height: float, edge_vec: Vector2, index: int) -> void:
-	var inst: Node3D = scene.instantiate()
+	var inst := MeshInstance3D.new()
+	inst.mesh = mesh
 	inst.name = "wall_element#%d" % [index]
 	inst.scale.x *= scale_x
 
@@ -235,14 +239,14 @@ static func _instance_module(parent: Node3D, scene: PackedScene, module_width: f
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array, spacer_block: PackedScene, module_indices: Dictionary) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array, spacer_block: Mesh, module_indices: Dictionary) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
 		return module_indices
 	var dir: Vector2 = edge_vec.normalized()
 
-	var spacer_width: float = utility.get_asset_width(spacer_block)
+	var spacer_width: float = spacer_block.get_aabb().size.x
 
 	# ------------------------
 	# 1) Choose main modules   
@@ -273,15 +277,15 @@ static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
 			# TODO: Think about a smarter way too approach this
 			random_index = module_indices[floor_assets][current_block_index % module_indices[floor_assets].size()]
 		
-		var scene: PackedScene = floor_assets[random_index]
+		var mesh: Mesh = floor_assets[random_index]
 		
 		# FIXME: properly handle this case which may well occur depending on alternating
 		# floor definitions (e.g. 1st floor 3 assets, 2nd floor 5 assets)
-		if scene == null:
-			print("SCENE WAS NULL!")
+		if mesh == null:
+			print("MESH WAS NULL!")
 			break
 		
-		var module_width := utility.get_asset_width(scene)
+		var module_width := mesh.get_aabb().size.x
 		# In case no more module fits, decide wether scaling is an option or to use spacers 
 		if used_width + module_width > edge_length:
 			module_scale = (edge_length / (used_width + module_width))
@@ -292,12 +296,12 @@ static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
 				break
 			
 			module_scale = (edge_length / used_width) if not module_scale < 1.0 else module_scale
-			modules.append({"scene": scene, "width": module_width})
+			modules.append({"mesh": mesh, "width": module_width})
 			used_width += module_width
 			current_block_index += 1
 			break
 			
-		modules.append({"scene": scene, "width": module_width})
+		modules.append({"mesh": mesh, "width": module_width})
 		used_width += module_width
 		current_block_index += 1
 
@@ -318,7 +322,7 @@ static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
 	# 2b) Main building modules
 	var index := 0
 	for m in modules:
-		_instance_module(parent, m["scene"], m["width"], module_scale,
+		_instance_module(parent, m["mesh"], m["width"], module_scale,
 			p1, dir, cursor, overall_floor_height, edge_vec, index)
 		cursor += m.width * module_scale
 		index += 1

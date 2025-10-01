@@ -1,12 +1,12 @@
 extends Resource
 class_name FloorDefinition
 
-@export var walls: Array[PackedScene]
-@export var door: PackedScene
-@export var corner_90: PackedScene
-@export var corner_270: PackedScene
+@export var walls: Array[Mesh]
+@export var door: Mesh
+@export var corner_90: Mesh
+@export var corner_270: Mesh
 # A minimal element to fill where other assets do not fit
-@export var spacer_block: PackedScene
+@export var spacer_block: Mesh
 @export var height := 3.
 
 func _init(_walls, _door, _corner_90, _corner_270, _spacer_block, _height:=3.) -> void:
