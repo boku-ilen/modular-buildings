@@ -1,7 +1,7 @@
 // NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's StandardMaterial3D.
 
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
+render_mode blend_mix, depth_draw_opaque, diffuse_burley, specular_schlick_ggx;
 
 instance uniform float bend;
 
