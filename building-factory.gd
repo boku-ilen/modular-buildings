@@ -20,32 +20,35 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 	# Long term it should probably be deterministic
 	randomize()
 	
-	var edges: Array[Edge] = _prepare_building(building_root, metadata)
+	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
+	building_root.position = metadata.position
 	if edges.is_empty(): 
 		return building_root
 	
 	var module_indices := {}
 	var overall_floor_height := 0.
 	
+	var corner_infos = _compute_corner_infos(edges)
+	
 	# Iterate floors and edges
 	for floor_num in metadata.floor_definitions.size():
+		# Node hierarchy for current floor
 		var floor_root = Node3D.new()
 		floor_root.name = "floor#%d" % floor_num
 		building_root.add_child(floor_root)
-		var floor_assets = metadata.floor_definitions
-		var floor_height = floor_assets[floor_num].height
 		
-		# Create the corner pieces, the edges will be updated according to the
+		# Meta
+		var floor_assets = metadata.floor_definitions[floor_num]
+		var floor_height = floor_assets.height
+		
+		# Create the corner pieces, the edges will be updated according to they
 		# mesh extent (to guarantee no overlap)
-		var updated_edges = _populate_corners(
-			floor_root, 
-			edges, 
-			floor_assets[floor_num].corner_90, 
-			floor_assets[floor_num].corner_270, 
-			overall_floor_height)
-		
-		var i = 0
-		for edge_current in updated_edges:
+		for i in edges.size():
+			var edge_current = _populate_corner(
+				floor_root,
+				edges[i], 
+				floor_assets.corner_90, 
+				corner_infos[i])
 			var edge_root = Node3D.new()
 			edge_root.name = "edge#%d" % i
 			floor_root.add_child(edge_root)
@@ -53,160 +56,84 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 			# Populate the edges with modules
 			# To ensure a uniform distribution along the floors, store the indices of the same
 			# floor asset packs
-			module_indices = _populate_edge(
+			module_indices = _compute_edges(
 				edge_root, 
 				edge_current.p0,
 				edge_current.p1, 
 				overall_floor_height, 
-				floor_assets[floor_num].walls, 
-				floor_assets[floor_num].spacer_block,
+				floor_assets.walls, 
+				floor_assets.spacer_block,
 				module_indices)
-			
-			i += 1
 		
 		overall_floor_height += floor_height
 	
 	return building_root
 
-
-static func _populate_corners(parent: Node3D, edges: Array[Edge], corner: Mesh, corner_270: Mesh, overall_floor_height: float) -> Array[Edge]:
-	var i = 0
-	var new_edges: Array[Edge] = []
-	var corner_instance := MeshInstance3D.new()
-	corner_instance.mesh = corner
-	var corner_270_instance := MeshInstance3D.new()
-	corner_270_instance.mesh = corner_270
-	
-	# For the hinge, we overwrite the mesh to be able to apply a new material
+# Returns the new edge with regard to the corner
+static func _populate_corner(
+	root: Node3D,
+	edge_i: Edge,
+	corner_mesh: Mesh, 
+	corner_info_i: Dictionary) -> Edge:
+	# Create a hinge corner asset from the mesh
 	var hinge_corner_instance := MeshInstance3D.new()
-	hinge_corner_instance.mesh = corner
+	hinge_corner_instance.mesh = corner_mesh
 	
-	var prepare_hinge_mesh = func(mesh: Mesh, idx: int):
-		var standard_mat = mesh.surface_get_material(idx)
+	# Write the standard material textures/etc. to the hinge-corner asset
+	for idx in hinge_corner_instance.mesh.get_surface_count():
+		var standard_mat = hinge_corner_instance.mesh.surface_get_material(idx)
 		var shader_mat: ShaderMaterial = hinge_material.duplicate(true)
 		
 		if standard_mat != null:
 			standard_mat = standard_mat.duplicate()
 			utility.copy_standard_to_shader(standard_mat, shader_mat)
 		
-		mesh.surface_set_material(idx, shader_mat)
+		hinge_corner_instance.mesh.surface_set_material(idx, shader_mat)
 	
-	var prepare_hinge_node = func(node: MeshInstance3D):
-		node.mesh = node.mesh.duplicate(true)
-		node.set_script(hinge_corner_script)
+	# Add a script to the meshinstance
+	hinge_corner_instance.mesh = hinge_corner_instance.mesh.duplicate(true)
+	hinge_corner_instance.set_script(hinge_corner_script)
 	
-	for surface_idx in hinge_corner_instance.mesh.get_surface_count():
-		prepare_hinge_mesh.call(hinge_corner_instance.mesh, surface_idx)
-	prepare_hinge_node.call(hinge_corner_instance)
+	# Cached asset extents
+	var asset_extent = ModuleSpecs.get_module_spec(corner_mesh).asset_extent
 	
-	# Store overall current angle for computing accurate new edge positions in consideration
-	# of the new corner assets.
-	# Consider that starting non-x-aligned requires to already have an angle
-	var start_angle := Vector2(1, 0).angle_to(edges[0].p1 - edges[0].p0)
-	var overall_angle := start_angle
-	# Store the previous asset so we can properly subtract it from the following edge
-	var previous_asset_extent := Vector2.ZERO
-	var is_90_deg := false
-	var is_270_deg := false
-	for edge_current in edges:
-		# Determine the angle to the next edge to decide whether we implicitly (hinge-asset) or
-		# explicitly (90° fixed asset) create the object at that corner
-		var edge_next: Edge = edges[(i+1) % edges.size()]
-		var angle_to_next = (edge_current.dir).angle_to(edge_next.dir)
-		
-		is_90_deg = angle_to_next > PI / 2 - (PI / 2) * TOLERATE_90_DEG_DEVIATION and angle_to_next < PI / 2 + (PI / 2) * TOLERATE_90_DEG_DEVIATION
-		is_270_deg = angle_to_next < -(PI / 2 - (PI / 2) * TOLERATE_90_DEG_DEVIATION) and angle_to_next > -(PI / 2 + (PI / 2) * TOLERATE_90_DEG_DEVIATION)
+	# Create a new edge that respects the extent of the corner asset
+	var subtrahend_0 = edge_i.dir * asset_extent.x 
+	var subtrahend_1 = edge_i.dir * asset_extent.y
+	
+	root.add_child(hinge_corner_instance)
+	hinge_corner_instance.angle = corner_info_i["angle"]
+	hinge_corner_instance.position = corner_info_i["position"]
+	hinge_corner_instance.look_at(
+		corner_info_i.position + Vector3(corner_info_i.direction.x, 0, corner_info_i.direction.y) * 5
+	)
+	# Kind of arbitrary right now, might want to rework this (technical debt)
+	var adjustment_angle = 45 if corner_info_i["angle"] < PI else 225
+	hinge_corner_instance.rotate(Vector3.UP, deg_to_rad(adjustment_angle))
+	
+	return Edge.new(edge_i.p0 + subtrahend_0, edge_i.p1 - subtrahend_1)
 
-		var explicit_instance = corner_instance if is_90_deg else null
-		explicit_instance = corner_270_instance if is_270_deg else explicit_instance
+
+static func _compute_corner_infos(edges: Array[Edge]) -> Array[Dictionary]:
+	var corner_infos: Array[Dictionary] = []
+	corner_infos.resize(edges.size())
+	for i in edges.size():
+		# Set dict
+		corner_infos[i] = {}
 		
-		# An explicit corner is a mesh created for that type of building
-		if is_90_deg or is_270_deg:
-			var explicit_corner = explicit_instance.duplicate(7) as Node3D
-			
-			# In a later step, we create new edges that respect the corner assets;
-			# for that we use the AABB of the asset (apply transforms before export!).
-			# Because some assets might have an extend into negative coords on x/z-plane,
-			# we need to respect that overhang such that there are no gaps when filling 
-			# the walls. We swap sides (z -> x ...) because the corner is 90° from the new edge
-			# y▲                                     
-			# ┤│   ┬ ... wall element y<0                           
-			# ┤│   ┤ ... wall elment x<0                                              
-			# ┤│   @ ... coordinate system origin
-			# ┤@─────────►                           
-			# ┬┬┬┬┬┬┬┬┬┬ x                           
-			var aabb = utility.get_combined_aabb(explicit_instance)
-			var overhang_z_side =  (aabb.size - aabb.end).x
-			var overhang_x_side = (-aabb.size - aabb.position).z if is_90_deg else -(aabb.size - aabb.end).z 
-			var asset_extent = Vector2(aabb.size.z - overhang_z_side, aabb.size.x + overhang_x_side)
-			
-			# Correct transformation (position and rotation)
-			var look_dir = Vector3(
-				(edge_current.p1 - edge_current.p0).x, 
-				overall_floor_height, 
-				(edge_current.p1 - edge_current.p0).y
-			).cross(Vector3.UP)
-			
-			explicit_corner.look_at_from_position(explicit_corner.position, (explicit_corner.position + look_dir))
-			var corner_position = edge_current.p1
-			explicit_corner.position = Vector3(corner_position.x, overall_floor_height, corner_position.y)
-			parent.add_child(explicit_corner)
-			
-			# Create a new edge that respects the extent of the corner asset
-			var subtrahend_0 = Vector2(previous_asset_extent.x, 0)
-			var subtrahend_1 = Vector2(asset_extent.y, 0)
-			var new_edge_0 = edge_current.p0 + subtrahend_0.rotated(overall_angle)
-			var new_edge_1 = edge_current.p1 - subtrahend_1.rotated(overall_angle)
-			
-			new_edges.append([new_edge_0, new_edge_1])
-			
-			previous_asset_extent = asset_extent
-			
-		# An implicit corner is for dull corners (the scene should behave like a hinge)
-		else:
-			var hinge_corner = hinge_corner_instance.duplicate(7)
-			parent.add_child(hinge_corner)
-			hinge_corner.angle = rad_to_deg(angle_to_next)
-			
-			# Correct transformation (position and rotation)
-			var corner_position = edge_current.p1
-			hinge_corner.position = Vector3(corner_position.x, overall_floor_height, corner_position.y)
-			
-			var aabb = utility.get_combined_aabb(hinge_corner)
-			var overhang_z_side =  (aabb.size - aabb.end).x
-			var overhang_x_side = (-aabb.size - aabb.position).z
-			var asset_extent = Vector2(aabb.size.z - overhang_z_side, aabb.size.x + overhang_x_side)
-			
-			# Create a new edge that respects the extent of the corner asset
-			var subtrahend_0 = edge_current.dir * asset_extent.x 
-			var subtrahend_1 = edge_current.dir * asset_extent.y
-			var new_edge_0 = edge_current.p0 + subtrahend_0
-			var new_edge_1 = edge_current.p1 - subtrahend_1
-			
-			new_edges.append(Edge.new(new_edge_0, new_edge_1))
-			
-			# find the edge between the current end-point and the next start-point 
-			var direction_next = edge_next.dir
-			var subtrahend_0_next = direction_next * asset_extent.x 
-			var new_edge_next = edge_next.p0 + subtrahend_0_next
-			
-			var look_dir = Vector3(new_edge_1[0], overall_floor_height, new_edge_1[1]).direction_to(Vector3(new_edge_next.x, overall_floor_height, new_edge_next.y))
-			look_dir = look_dir.cross(Vector3.UP)
-			hinge_corner.look_at(hinge_corner.position - look_dir)
-			# Rather arbitrary, but corners are exported optimally for when they are *not* hinges
-			# which makes this adjustment necessary
-			hinge_corner.rotation_degrees.y -= 135
-			
-			previous_asset_extent = asset_extent
+		# Determine the angle to the next edge 
+		var edge_current: Edge = edges[i]
+		var edge_next: Edge = edges[(i+1) % edges.size()]
+		corner_infos[i]["angle"] = rad_to_deg((edge_current.dir).angle_to(edge_next.dir))
 		
-		i += 1
-		overall_angle += angle_to_next
-	
-	# Finally also apply the last asset to the first edge (was not set in first iteration)
-	if is_90_deg or is_270_deg:
-		new_edges[0].p0 += Vector2(previous_asset_extent.x, 0).rotated(start_angle)
-	
-	return new_edges
+		# Correct transformation (position and rotation)
+		var corner_position = edge_current.p1
+		corner_infos[i]["position"] = Vector3(corner_position.x, 0, corner_position.y)
+		# Rather arbitrarily (technical debt) rotation has to be applied, 
+		# we might fix this and export the corners more adequately
+		corner_infos[i]["direction"] = (edge_current.dir - edge_next.dir)
+		
+	return corner_infos
 
 
 ## Populate a single edge with facade modules
@@ -231,7 +158,7 @@ static func _instance_module(parent: Node3D, mesh: Mesh, module_width: float, sc
 # ------------------------------------------------
 # _populate_edge with balanced spacers
 # ------------------------------------------------
-static func _populate_edge(parent: Node3D, p1: Vector2, p2: Vector2,
+static func _compute_edges(parent: Node3D, p1: Vector2, p2: Vector2,
 		overall_floor_height: float, floor_assets: Array, spacer_block: Mesh, module_indices: Dictionary) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
@@ -346,12 +273,10 @@ static func _get_spacers(edge_length: float, used_width: float, spacer_width: fl
 	return {"left": left, "right": right, "scale": spacer_scale}
 
 
-static func _prepare_building(building_root: Node3D, metadata: BuildingMetadata) -> Array[Edge]:
-	var footprint = metadata.footprint 
+static func _footprint_to_edges(footprint: Array[Vector2]) -> Array[Edge]:
 	if Geometry2D.is_polygon_clockwise(footprint): 
 		footprint.reverse()
 	
-	building_root.position = metadata.position
 	if footprint.size() < 3:
 		push_error("Footprint must have at least 3 vertices")
 		return []
