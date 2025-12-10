@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://hxvr7kulyopc"
+path="res://.godot/imported/Wall_Spacer_2.0x4.0.obj-1334922246c09f10b73b7051e6b250fe.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wall_Spacer_2.0x4.0.obj-1334922246c09f10b73b7051e6b250fe.mesh"]
+
+source_file="res://Meshes/ImportRawOBJ/Iteration01/Wall_Spacer_2.0x4.0.obj"
+dest_files=["res://.godot/imported/Wall_Spacer_2.0x4.0.obj-1334922246c09f10b73b7051e6b250fe.mesh", "res://.godot/imported/Wall_Spacer_2.0x4.0.obj-1334922246c09f10b73b7051e6b250fe.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
