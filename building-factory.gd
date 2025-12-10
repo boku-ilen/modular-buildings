@@ -48,7 +48,8 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 				floor_root,
 				edges[i], 
 				floor_assets.corner_90, 
-				corner_infos[i])
+				corner_infos[i],
+				overall_floor_height)
 			var edge_root = Node3D.new()
 			edge_root.name = "edge#%d" % i
 			floor_root.add_child(edge_root)
@@ -74,7 +75,8 @@ static func _populate_corner(
 	root: Node3D,
 	edge_i: Edge,
 	corner_mesh: Mesh, 
-	corner_info_i: Dictionary) -> Edge:
+	corner_info_i: Dictionary,
+	overall_floor_height: float) -> Edge:
 	# Create a hinge corner asset from the mesh
 	var hinge_corner_instance := MeshInstance3D.new()
 	hinge_corner_instance.mesh = corner_mesh
@@ -107,6 +109,8 @@ static func _populate_corner(
 	hinge_corner_instance.look_at(
 		corner_info_i.position + Vector3(corner_info_i.direction.x, 0, corner_info_i.direction.y) * 5
 	)
+	hinge_corner_instance.position += Vector3.UP * overall_floor_height
+	
 	# Kind of arbitrary right now, might want to rework this (technical debt)
 	var adjustment_angle = 45 if corner_info_i["angle"] < PI else 225
 	hinge_corner_instance.rotate(Vector3.UP, deg_to_rad(adjustment_angle))
