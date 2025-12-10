@@ -1,23 +1,17 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://c361rhlde350s"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c361rhlde350s"]
 
 [ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://Elements/hinge_corner.gdshader" id="1_0f5bi"]
-[ext_resource type="Texture2D" uid="uid://xxbqu7sp2m23" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_top_modular_urban_apartments_facade_trim_01_diff_4k.png" id="2_xckjf"]
-[ext_resource type="Texture2D" uid="uid://c2wqvheq1ccta" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_top_modular_urban_apartments_facade_trim_01_rough_4k.png" id="3_efmow"]
-[ext_resource type="Texture2D" uid="uid://4my0cdnhe5lg" path="res://modular_urban_apartments_facade_4k.blend/elements/corner_top_modular_urban_apartments_facade_trim_01_nor_gl_4k.png" id="4_65p04"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_0f5bi")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/albedo_texture = ExtResource("2_xckjf")
+shader_parameter/albedo = Color(0.64272577, 0.38833535, 0.275164, 1)
 shader_parameter/albedo_texture_size = Vector2i(0, 0)
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 0.0
-shader_parameter/metallic_texture = ExtResource("3_efmow")
 shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.0
 shader_parameter/metallic = 0.0
-shader_parameter/normal_texture = ExtResource("4_65p04")
 shader_parameter/normal_scale = 0.0
 shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
