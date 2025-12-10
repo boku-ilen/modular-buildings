@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="FloorDefinition" load_steps=8 format=3 uid="uid://dss4wvhxo55dg"]
 
-[ext_resource type="ArrayMesh" uid="uid://codwcf35j26du" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerInner_0.25x3.0.obj" id="1_0yqs0"]
+[ext_resource type="ArrayMesh" uid="uid://codwcf35j26du" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerIn_0.25x3.0.obj" id="1_0yqs0"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="1_kyghp"]
-[ext_resource type="ArrayMesh" uid="uid://bpv3i67golybd" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerOuter_0.25x3.0.obj" id="2_lp73y"]
+[ext_resource type="ArrayMesh" uid="uid://bpv3i67golybd" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerOut_0.25x3.0.obj" id="2_lp73y"]
 [ext_resource type="ArrayMesh" uid="uid://cnlqg8ekewah5" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Spacer_2.0x3.0.obj" id="4_6004s"]
-[ext_resource type="ArrayMesh" uid="uid://dmaayygtq81ph" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window1_TEMP.obj" id="5_hx27e"]
-[ext_resource type="ArrayMesh" uid="uid://c45nhal6s7u4d" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window2_TEMP.obj" id="6_w2oug"]
-[ext_resource type="ArrayMesh" uid="uid://c3hrqva0a2k5t" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Door1_TEMP.obj" id="7_whi8d"]
+[ext_resource type="ArrayMesh" uid="uid://dmaayygtq81ph" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window01_2.0x3.0.obj" id="5_hx27e"]
+[ext_resource type="ArrayMesh" uid="uid://c45nhal6s7u4d" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window02_2.0x3.0.obj" id="6_w2oug"]
+[ext_resource type="ArrayMesh" uid="uid://c3hrqva0a2k5t" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Door01_2.0x3.0.obj" id="7_whi8d"]
 
 [resource]
 script = ExtResource("1_kyghp")
