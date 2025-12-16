@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="FloorDefinition" load_steps=5 format=3 uid="uid://b5pm411qyw0kj"]
 
-[ext_resource type="ArrayMesh" uid="uid://k1uny3gm0mr2" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_CornerIn_0.25x1.0.obj" id="1_jdvff"]
-[ext_resource type="ArrayMesh" uid="uid://c40qdric4aurt" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_CornerOut_0.35x1.0.obj" id="2_cdpd0"]
+[ext_resource type="ArrayMesh" uid="uid://5wcvwp24ygqn" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_CornerIn_0.25x1.0.obj" id="1_jdvff"]
+[ext_resource type="ArrayMesh" uid="uid://dbba0n1e7jo4g" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_CornerOut_0.35x1.0.obj" id="2_cdpd0"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="3_rtovt"]
-[ext_resource type="ArrayMesh" uid="uid://d60kx3lbkecx" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_Spacer_2.0x1.0.obj" id="4_886te"]
+[ext_resource type="ArrayMesh" uid="uid://63i8qat1c5uo" path="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_Spacer_2.0x1.0.obj" id="4_886te"]
 
 [resource]
 script = ExtResource("3_rtovt")
