@@ -1,17 +1,17 @@
 [gd_resource type="Resource" script_class="FloorDefinition" load_steps=8 format=3 uid="uid://dss4wvhxo55dg"]
 
-[ext_resource type="ArrayMesh" uid="uid://p01x166476dt" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerIn_0.25x3.0.obj" id="1_0yqs0"]
+[ext_resource type="ArrayMesh" uid="uid://5dmeg7fp8uvc" path="res://Meshes/Processed/Iteration01/Wall_CornerIn_0.25x3.0.res" id="1_ghog7"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="1_kyghp"]
-[ext_resource type="ArrayMesh" uid="uid://rrplpx8jd58e" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_CornerOut_0.25x3.0.obj" id="2_lp73y"]
-[ext_resource type="ArrayMesh" uid="uid://s6sen37o3v6a" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Spacer_2.0x3.0.obj" id="4_6004s"]
-[ext_resource type="ArrayMesh" uid="uid://btmpo6lg1fggj" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window01_2.0x3.0.obj" id="5_hx27e"]
-[ext_resource type="ArrayMesh" uid="uid://cnj5ye0dvuxwq" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Window02_2.0x3.0.obj" id="6_w2oug"]
-[ext_resource type="ArrayMesh" uid="uid://c7p870terdetx" path="res://Meshes/ImportRawOBJ/Iteration01/Wall_Door01_2.0x3.0.obj" id="7_whi8d"]
+[ext_resource type="ArrayMesh" uid="uid://b2kb3sx6g3gc0" path="res://Meshes/Processed/Iteration01/Wall_CornerOut_0.25x3.0.res" id="2_8lnlg"]
+[ext_resource type="ArrayMesh" uid="uid://6de24oivire4" path="res://Meshes/Processed/Iteration01/Wall_Spacer_2.0x3.0.res" id="4_dctpq"]
+[ext_resource type="ArrayMesh" uid="uid://dm1spkpxnb0g5" path="res://Meshes/Processed/Iteration01/Wall_Door01_2.0x3.0.res" id="5_cgjns"]
+[ext_resource type="ArrayMesh" uid="uid://bqo2hkrfpvyd5" path="res://Meshes/Processed/Iteration01/Wall_Window01_2.0x3.0.res" id="6_vwgny"]
+[ext_resource type="ArrayMesh" uid="uid://bgsjlan8vg66y" path="res://Meshes/Processed/Iteration01/Wall_Window02_2.0x3.0.res" id="7_886ml"]
 
 [resource]
 script = ExtResource("1_kyghp")
-walls = Array[Mesh]([ExtResource("5_hx27e"), ExtResource("6_w2oug"), ExtResource("7_whi8d")])
-corner_90 = ExtResource("2_lp73y")
-corner_270 = ExtResource("1_0yqs0")
-spacer_block = ExtResource("4_6004s")
+walls = Array[Mesh]([ExtResource("5_cgjns"), ExtResource("6_vwgny"), ExtResource("7_886ml")])
+corner_90 = ExtResource("2_8lnlg")
+corner_270 = ExtResource("1_ghog7")
+spacer_block = ExtResource("4_dctpq")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

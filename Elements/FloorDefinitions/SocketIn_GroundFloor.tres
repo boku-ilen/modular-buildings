@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="FloorDefinition" load_steps=5 format=3 uid="uid://bm65f0fb4xgr7"]
 
-[ext_resource type="ArrayMesh" uid="uid://cggy1nilssg2i" path="res://Meshes/ImportRawOBJ/Iteration01/SocketIn_CornerIn_0.35x1.0.obj" id="1_2ajk2"]
-[ext_resource type="ArrayMesh" uid="uid://cx6dumcyqpn6w" path="res://Meshes/ImportRawOBJ/Iteration01/SocketIn_CornerOut_0.25x1.0.obj" id="2_dyrl1"]
+[ext_resource type="ArrayMesh" uid="uid://cel3vwmgy2182" path="res://Meshes/Processed/Iteration01/SocketIn_CornerIn_0.35x1.0.res" id="1_ico4t"]
+[ext_resource type="ArrayMesh" uid="uid://srbeikh42qhi" path="res://Meshes/Processed/Iteration01/SocketIn_CornerOut_0.25x1.0.res" id="2_vwo4c"]
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="3_abo4u"]
-[ext_resource type="ArrayMesh" uid="uid://dg1spy8lnhobp" path="res://Meshes/ImportRawOBJ/Iteration01/SocketIn_Spacer_2.0x1.0.obj" id="4_efnrb"]
+[ext_resource type="ArrayMesh" uid="uid://0e2gmj2apwab" path="res://Meshes/Processed/Iteration01/SocketIn_Spacer_2.0x1.0.res" id="4_pwo3v"]
 
 [resource]
 script = ExtResource("3_abo4u")
-walls = Array[Mesh]([ExtResource("4_efnrb")])
-corner_90 = ExtResource("2_dyrl1")
-corner_270 = ExtResource("1_2ajk2")
-spacer_block = ExtResource("4_efnrb")
+walls = Array[Mesh]([ExtResource("4_pwo3v")])
+corner_90 = ExtResource("2_vwo4c")
+corner_270 = ExtResource("1_ico4t")
+spacer_block = ExtResource("4_pwo3v")
 height = 1.0
 metadata/_custom_type_script = "uid://1cryccueq7u4"
