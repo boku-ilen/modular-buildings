@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cyoagl3lltxm5"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cyoagl3lltxm5"]
 
 [ext_resource type="Shader" uid="uid://b8mx6huara3iy" path="res://Shader/Triplanar_LocalAxesButWorldAnchored_NoBlend_V2.gdshader" id="1_6m85c"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="2_yduye"]

@@ -6,19 +6,24 @@ uniform sampler2D base_albedo_tex;
 uniform vec3 base_albedo_tint = vec3(1.0);
 uniform sampler2D base_normal_tex: hint_roughness_normal, filter_linear_mipmap, repeat_enable;
 uniform sampler2D base_mra_tex; // R=Metal G=Rough B=AO
+uniform float base_uv_density : hint_range(0.01, 10.0) = 1.0;
 
 //// DIRT LAYER
-uniform sampler2D dirt_albedo_tex;
-uniform vec3 dirt_albedo_tint;
-uniform sampler2D dirt_normal_tex : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
-uniform sampler2D dirt_mra_tex; // R=Metal G=Rough B=AO
+uniform sampler2D dirt_multiply_tex;
+uniform vec3 dirt_multiply_tint;
+// Disabled for Performance reason, currently only uses Tex to multiply on top
+//uniform sampler2D dirt_albedo_tex;
+//uniform vec3 dirt_albedo_tint;
+//uniform sampler2D dirt_normal_tex : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
+//uniform sampler2D dirt_mra_tex; // R=Metal G=Rough B=AO
+uniform float dirt_uv_density : hint_range(0.01, 20.0) = 4.0;
 
-//// DIRT MASK
+//// DIRTMASK = Blending between pure Base layer, and Base Layer * Dirt Layer
 uniform sampler2D dirtmask_tex; // Grayscale
 
 //// ARTIST CONTROLS
-uniform float base_uv_density : hint_range(0.01, 10.0) = 1.0;
-uniform float dirt_uv_density : hint_range(0.01, 20.0) = 4.0;
+
+
 uniform float dirtmask_uv_density : hint_range(0.01, 20.0) = 2.0;
 uniform float dirt_amount : hint_range(0.0, 1.0) = 0.5;
 
