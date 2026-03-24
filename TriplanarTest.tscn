@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bqplu8hram0e7"]
 
-[ext_resource type="Material" uid="uid://b7mtu7b8bmkq8" path="res://Materials/TestMatV2.tres" id="1_yd86y"]
+[ext_resource type="Material" uid="uid://b7mtu7b8bmkq8" path="res://Materials/FinalTriplanarMatWIP_V2.tres" id="1_yd86y"]
+
 
 [sub_resource type="SphereMesh" id="SphereMesh_ghi1a"]
 

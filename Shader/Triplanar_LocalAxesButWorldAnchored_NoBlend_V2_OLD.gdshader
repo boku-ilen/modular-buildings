@@ -162,7 +162,7 @@ void fragment() {
     METALLIC   = metallic;
     ROUGHNESS  = roughness;
     AO         = ao;
-    //NORMAL_MAP = final_normal;
+    NORMAL_MAP = final_normal;
 
     // -------------------------
     // DEBUG MODES
