@@ -1,0 +1,25 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bfw4jela52fxs"]
+
+[ext_resource type="Shader" uid="uid://cw5dn4uwsopsa" path="res://Shader/Triplanar_NewFromGodotLoc_V4.gdshader" id="1_jdv1a"]
+[ext_resource type="Texture2D" uid="uid://b4laqig7jwrxu" path="res://Textures/GreyscaleMask.png" id="2_1davh"]
+[ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="3_pva8m"]
+[ext_resource type="Texture2D" uid="uid://bgbeuolkhd7wa" path="res://Textures/Mask.png" id="4_b4dod"]
+[ext_resource type="Texture2D" uid="uid://dg68c6jetr8n6" path="res://Textures/GreyscaleMask_HighContrast.png" id="5_nmv2l"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_jdv1a")
+shader_parameter/specular = 0.5
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/debug_mode = 0
+shader_parameter/triplanar_blend_sharpness = 19.102000859845
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_mrao_tex = ExtResource("2_1davh")
+shader_parameter/base_uv_density = 1.12900005292898
+shader_parameter/dirt_albedo_tex = ExtResource("3_pva8m")
+shader_parameter/dirt_albedo_tint = Color(0.6495542, 0.50317335, 0.23302063, 1)
+shader_parameter/dirt_mrao_tex = ExtResource("4_b4dod")
+shader_parameter/dirt_uv_density = 2.36700011173398
+shader_parameter/dirtmask_tex = ExtResource("5_nmv2l")
+shader_parameter/dirtmask_amount = 0.7850000372875
+shader_parameter/dirtmask_uv_density = 1.75000008242648

@@ -2,9 +2,11 @@
 
 [ext_resource type="Material" uid="uid://bkd7xd5fdyrv7" path="res://Materials/FinalTriplanarMatWIP_V3.tres" id="1_7vbj4"]
 [ext_resource type="Material" uid="uid://cyoagl3lltxm5" path="res://Materials/TriplanarTest.tres" id="1_vgkgg"]
-[ext_resource type="Texture2D" uid="uid://cqahy6prdenws" path="res://Materials/textile01_NORMAL.jpg" id="2_7vbj4"]
+[ext_resource type="Texture2D" uid="uid://cqahy6prdenws" path="res://Textures/textile01_NORMAL.jpg" id="2_7vbj4"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_rilvn"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7vbj4"]
 
 [sub_resource type="Shader" id="Shader_btw46"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.5.stable's StandardMaterial3D.
@@ -106,9 +108,14 @@ shader_parameter/uv2_offset = Vector3(0, 0, 0)
 [node name="Node3D" type="Node3D" unique_id=2066059453]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2104947542]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.736043)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13579082, 0, -1.736043)
 material_override = ExtResource("1_7vbj4")
 mesh = SubResource("TorusMesh_rilvn")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1156080672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8038129, 1.2408304, -0.9140705)
+material_override = ExtResource("1_7vbj4")
+mesh = SubResource("SphereMesh_7vbj4")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1381614637]
 transform = Transform3D(1, 0, 0, 0, -0.99691737, -0.07845904, 0, 0.07845904, -0.99691737, -2.5142894, 0, 0)
@@ -116,15 +123,21 @@ material_override = SubResource("ShaderMaterial_k1lkf")
 mesh = SubResource("TorusMesh_rilvn")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=826055875]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7284673, 0.41187796, 0.61068547)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16578084, 1.1041328, -0.32748574)
 shadow_enabled = true
+omni_range = 1.7779701
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1334145791]
-transform = Transform3D(0.71063983, 0, -0.70355594, 0, 1, 0, 0.70355594, 0, 0.71063983, 0, 0, 2.0307727)
+transform = Transform3D(0.71063983, 0, -0.70355594, 0, 1, 0, 0.70355594, 0, 0.71063983, -0.9142182, 0, 1.5055609)
 material_override = ExtResource("1_vgkgg")
 mesh = SubResource("BoxMesh_jl21i")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=443397815]
-transform = Transform3D(0.48883438, 0, -1.4992464, 0, 1, 0, 0.87237656, 0, 0.84009963, 0.77187705, 0.1484893, 0.6048792)
-material_override = ExtResource("1_vgkgg")
+transform = Transform3D(0.48883438, 0, -0.90019876, 0, 1.7001967, 0, 0.87237656, 0, 0.5044245, 1.517344, 1.1245977, 0.29533458)
+material_override = ExtResource("1_7vbj4")
+mesh = SubResource("BoxMesh_jl21i")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1556801724]
+transform = Transform3D(0.48883438, 0, -0.90019876, 0, 1.7001967, 0, 0.87237656, 0, 0.5044245, 0.61750686, 1.1245977, 0.79955643)
+material_override = ExtResource("1_7vbj4")
 mesh = SubResource("BoxMesh_jl21i")

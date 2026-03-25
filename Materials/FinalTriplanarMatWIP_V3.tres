@@ -2,20 +2,19 @@
 
 [ext_resource type="Shader" uid="uid://c6msflt5wd60k" path="res://Shader/Triplanar_NewFromGodotLoc_V3.gdshader" id="1_4tm2b"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="2_olvm2"]
-[ext_resource type="Texture2D" uid="uid://cqahy6prdenws" path="res://Materials/textile01_NORMAL.jpg" id="3_vwwmr"]
+[ext_resource type="Texture2D" uid="uid://dg68c6jetr8n6" path="res://Textures/GreyscaleMask_HighContrast.png" id="5_in403"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_4tm2b")
 shader_parameter/specular = 0.5
-shader_parameter/normal_scale = 1.0
-shader_parameter/debug_mode = 2
-shader_parameter/base_albedo_tex = ExtResource("2_olvm2")
-shader_parameter/base_albedo_tint = Vector3(1, 1, 1)
-shader_parameter/base_normal_tex = ExtResource("3_vwwmr")
-shader_parameter/base_uv_density = 1.0
-shader_parameter/dirt_multiply_tint = Vector3(0, 0, 0)
-shader_parameter/dirt_uv_density = 4.0
-shader_parameter/dirtmask_tex = ExtResource("3_vwwmr")
-shader_parameter/dirtmask_amount = 1.0
-shader_parameter/dirtmask_uv_density = 0.07700000295898
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/debug_mode = 0
+shader_parameter/base_albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/base_uv_density = 1.1290000529289799
+shader_parameter/dirt_albedo_tex = ExtResource("2_olvm2")
+shader_parameter/dirt_albedo_tint = Color(0.6495542, 0.50317335, 0.23302063, 1)
+shader_parameter/dirt_uv_density = 2.36700011173398
+shader_parameter/dirtmask_tex = ExtResource("5_in403")
+shader_parameter/dirtmask_amount = 0.7850000372875
+shader_parameter/dirtmask_uv_density = 1.7500000824264799
