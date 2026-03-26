@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://yi1b3gu3fe4y"]
 
 [ext_resource type="Material" uid="uid://bkd7xd5fdyrv7" path="res://Materials/FinalTriplanarMatWIP_V3.tres" id="1_7vbj4"]
-[ext_resource type="Material" uid="uid://cyoagl3lltxm5" path="res://Materials/TriplanarTest.tres" id="1_vgkgg"]
+[ext_resource type="Material" uid="uid://b7acufleitlud" path="res://Materials/FinalTriplanarMat_MainWithShaderInclude.tres" id="1_rilvn"]
 [ext_resource type="Texture2D" uid="uid://cqahy6prdenws" path="res://Textures/textile01_NORMAL.jpg" id="2_7vbj4"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_rilvn"]
@@ -109,7 +109,7 @@ shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2104947542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13579082, 0, -1.736043)
-material_override = ExtResource("1_7vbj4")
+material_override = ExtResource("1_rilvn")
 mesh = SubResource("TorusMesh_rilvn")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1156080672]
@@ -123,21 +123,26 @@ material_override = SubResource("ShaderMaterial_k1lkf")
 mesh = SubResource("TorusMesh_rilvn")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=826055875]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16578084, 1.1041328, -0.32748574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18773326, 0.50085354, -0.32748574)
+shadow_enabled = true
+omni_range = 1.7779701
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1603053570]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15866709, 0.23139358, -3.2704775)
 shadow_enabled = true
 omni_range = 1.7779701
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1334145791]
 transform = Transform3D(0.71063983, 0, -0.70355594, 0, 1, 0, 0.70355594, 0, 0.71063983, -0.9142182, 0, 1.5055609)
-material_override = ExtResource("1_vgkgg")
+material_override = ExtResource("1_rilvn")
 mesh = SubResource("BoxMesh_jl21i")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=443397815]
 transform = Transform3D(0.48883438, 0, -0.90019876, 0, 1.7001967, 0, 0.87237656, 0, 0.5044245, 1.517344, 1.1245977, 0.29533458)
-material_override = ExtResource("1_7vbj4")
+material_override = ExtResource("1_rilvn")
 mesh = SubResource("BoxMesh_jl21i")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1556801724]
-transform = Transform3D(0.48883438, 0, -0.90019876, 0, 1.7001967, 0, 0.87237656, 0, 0.5044245, 0.61750686, 1.1245977, 0.79955643)
-material_override = ExtResource("1_7vbj4")
+transform = Transform3D(0.48883438, 0, -0.90019876, 0, 1.7001967, 0, 0.87237656, 0, 0.5044245, 0.6201332, 1.1245977, 0.7980848)
+material_override = ExtResource("1_rilvn")
 mesh = SubResource("BoxMesh_jl21i")

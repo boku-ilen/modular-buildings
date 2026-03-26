@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvatc1tbumy1l"
-path.s3tc="res://.godot/imported/normal2.jpg-ca829dd542c63ea2c02d399034eb8022.s3tc.ctex"
+uid="uid://wjtoanxyosam"
+path.s3tc="res://.godot/imported/WildNoise.png-eb7a057f2e8d5532c116c3f56344c702.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Textures/normal2.jpg"
-dest_files=["res://.godot/imported/normal2.jpg-ca829dd542c63ea2c02d399034eb8022.s3tc.ctex"]
+source_file="res://Textures/WildNoise.png"
+dest_files=["res://.godot/imported/WildNoise.png-eb7a057f2e8d5532c116c3f56344c702.s3tc.ctex"]
 
 [params]
 
@@ -22,7 +22,7 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1

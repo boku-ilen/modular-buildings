@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bfw4jela52fxs"]
 
-[ext_resource type="Shader" uid="uid://cw5dn4uwsopsa" path="res://Shader/Triplanar_NewFromGodotLoc_V4.gdshader" id="1_jdv1a"]
+[ext_resource type="Shader" uid="uid://y061fw0nbxef" path="res://Triplanar_NewFromGodotLoc_V5.gdshader" id="1_jdv1a"]
 [ext_resource type="Texture2D" uid="uid://b4laqig7jwrxu" path="res://Textures/GreyscaleMask.png" id="2_1davh"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="3_pva8m"]
 [ext_resource type="Texture2D" uid="uid://bgbeuolkhd7wa" path="res://Textures/Mask.png" id="4_b4dod"]
