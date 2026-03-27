@@ -1,10 +1,10 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bgkieruoq1shr"]
 
-[ext_resource type="Shader" uid="uid://cw5dn4uwsopsa" path="res://Shader/Triplanar_NewFromGodotLoc_V4.gdshader" id="1_jualk"]
-[ext_resource type="Texture2D" uid="uid://b4laqig7jwrxu" path="res://Textures/GreyscaleMask.png" id="2_thn7a"]
+[ext_resource type="Shader" uid="uid://cw5dn4uwsopsa" path="res://Shader/TEST/Triplanar_NewFromGodotLoc_V4.gdshader" id="1_jualk"]
+[ext_resource type="Texture2D" uid="uid://b4laqig7jwrxu" path="res://Textures/DiffClouds.png" id="2_thn7a"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="3_t4osy"]
-[ext_resource type="Texture2D" uid="uid://bgbeuolkhd7wa" path="res://Textures/Mask.png" id="4_7mqdd"]
-[ext_resource type="Texture2D" uid="uid://dg68c6jetr8n6" path="res://Textures/GreyscaleMask_HighContrast.png" id="5_bpku6"]
+[ext_resource type="Texture2D" uid="uid://dg68c6jetr8n6" path="res://Textures/DiffClouds_HighContr.png" id="4_7mqdd"]
+[ext_resource type="Texture2D" uid="uid://dg68c6jetr8n6" path="res://Textures/DiffClouds_HighContr.png" id="5_bpku6"]
 
 [resource]
 render_priority = 0

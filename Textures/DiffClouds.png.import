@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgbeuolkhd7wa"
-path.s3tc="res://.godot/imported/Mask.png-5f689744eb7e45be1f1e70a2bf782637.s3tc.ctex"
+uid="uid://b4laqig7jwrxu"
+path.s3tc="res://.godot/imported/DiffClouds.png-03ddd5de2ed1b6f8eeac281d11b86c3b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Textures/Mask.png"
-dest_files=["res://.godot/imported/Mask.png-5f689744eb7e45be1f1e70a2bf782637.s3tc.ctex"]
+source_file="res://Textures/DiffClouds.png"
+dest_files=["res://.godot/imported/DiffClouds.png-03ddd5de2ed1b6f8eeac281d11b86c3b.s3tc.ctex"]
 
 [params]
 

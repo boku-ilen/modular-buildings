@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://b7mtu7b8bmkq8"]
 
-[ext_resource type="Shader" uid="uid://v742vbh7b4rv" path="res://Shader/Triplanar_NewFromGodotLoc_V2.gdshader" id="1_isuln"]
+[ext_resource type="Shader" uid="uid://v742vbh7b4rv" path="res://Shader/TEST/Triplanar_NewFromGodotLoc_V2.gdshader" id="1_isuln"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="2_ywmpd"]
-[ext_resource type="Texture2D" uid="uid://cqahy6prdenws" path="res://Textures/textile01_NORMAL.jpg" id="3_8llxj"]
+[ext_resource type="Texture2D" uid="uid://dm3lm8bxo57tq" path="res://Textures/brickwall_normal.png" id="3_8llxj"]
 
 [resource]
 render_priority = 0

@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="3_b42aa"]
 [ext_resource type="Texture2D" uid="uid://wjtoanxyosam" path="res://Textures/WildNoise.png" id="3_kjgix"]
 [ext_resource type="Texture2D" uid="uid://dm3lm8bxo57tq" path="res://Textures/brickwall_normal.png" id="3_pur6p"]
-[ext_resource type="Texture2D" uid="uid://bgbeuolkhd7wa" path="res://Textures/Mask.png" id="4_nkoms"]
 
 [sub_resource type="Gradient" id="Gradient_aaivn"]
 colors = PackedColorArray(0, 0, 0, 1, 1, 0.53333336, 0, 1)
@@ -14,6 +13,8 @@ colors = PackedColorArray(0, 0, 0, 1, 1, 0.53333336, 0, 1)
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nf56e"]
 noise = SubResource("FastNoiseLite_r6pf6")
 color_ramp = SubResource("Gradient_aaivn")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_di2cg"]
 
 [resource]
 render_priority = 0
@@ -29,7 +30,7 @@ shader_parameter/base_mrao_tex = ExtResource("3_b42aa")
 shader_parameter/base_uv_tiling = 1.0
 shader_parameter/dirt_albedo_tex = SubResource("NoiseTexture2D_nf56e")
 shader_parameter/dirt_albedo_tint = Color(0.6495542, 0.50317335, 0.23302063, 1)
-shader_parameter/dirt_mrao_tex = ExtResource("4_nkoms")
+shader_parameter/dirt_mrao_tex = SubResource("CompressedTexture2D_di2cg")
 shader_parameter/dirt_uv_tiling = 4.0
 shader_parameter/dirtmask_tex = ExtResource("3_kjgix")
 shader_parameter/dirtmask_amount = 0.818000038855
