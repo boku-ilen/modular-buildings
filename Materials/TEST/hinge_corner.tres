@@ -1,6 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c361rhlde350s"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c361rhlde350s"]
 
-[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://Elements/hinge_corner.gdshader" id="1_0f5bi"]
+[ext_resource type="Shader" uid="uid://2br3p1e1nvcn" path="res://Shader/hinge_corner.gdshader" id="1_0f5bi"]
+
 
 [resource]
 render_priority = 0

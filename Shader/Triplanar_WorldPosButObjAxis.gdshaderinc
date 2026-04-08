@@ -60,49 +60,8 @@ varying vec3 trip_v_blend_weight_mask; // Only required for TRIP_PROJECTION_BLEN
 // FUNC DEFINITIONS
 // ============================================================
 
-// BLEND NORMALS WHITEOUT =====================================
-// Sub-Func for blending 2 Base + Dirt Layer Normals
-// ============================================================
-vec3 blend_normals_whiteout(vec3 in_base_normal, vec3 in_dirt_normal) {
-	vec3 base_n = normalize(in_base_normal);
-	vec3 dirt_n = normalize(in_dirt_normal);
 
-	return normalize(vec3(
-		base_n.xy + dirt_n.xy,
-		base_n.z * dirt_n.z
-	));
-}
-
-// BLEND NORMALMAPS WHITEOUT MASKED============================
-// Main Func for blending 2 Base + Dirt Layer Normal Maps
-// ============================================================
-vec3 blend_normalmaps_whiteout_masked(
-	vec3 in_base_normal_encoded,
-	vec3 in_dirt_normal_encoded,
-	float in_mask_texsampled,
-	float in_mask_amount
-	)
-	{
-	float mask = clamp(in_mask_texsampled * in_mask_amount, 0.0, 1.0);
-
-	// Decode
-	vec3 base_n = in_base_normal_encoded * 2.0 - 1.0;
-	vec3 dirt_n = in_dirt_normal_encoded * 2.0 - 1.0;
-
-	// Scale dirt detail strength
-	dirt_n = normalize(dirt_n);
-	vec2 dirt_xy = dirt_n.xy * mask;
-	float dirt_z = sqrt(max(1.0 - dot(dirt_xy, dirt_xy), 0.0));
-	vec3 dirt_n_scaled = normalize(vec3(dirt_xy, dirt_z));
-
-	// Whiteout overlay
-	vec3 final_n = blend_normals_whiteout(base_n, dirt_n_scaled);
-
-	// Encode again for Return
-	return final_n * 0.5 + 0.5;
-}
-
-// CALC VERTEX DATA ===========================================
+// CALC IN VERTEX SHADER ===========================================
 // NOTE: Unfortunately, func in shaderinclude can NOT get from builtin VERTEX, NORMAL and MODEL_MATRIX directly, that's why those need to be passed in!
 // Also it can NOT assign to varying variables or built-in vertex outputs like TANGENT / BINORMAL directly.
 // That's why it just outputs the results, and varyings / built-in vertex outputs need to be assigned directly inside vertex() in the Main Shader's vertex()!
@@ -472,6 +431,48 @@ float trip_sample_dirtmask_blended(
 		texture(dirtmask_tex, uv_zaxis).r * in_blend_weight_mask.z +
 		texture(dirtmask_tex, uv_yaxis).r * in_blend_weight_mask.y +
 		texture(dirtmask_tex, uv_xaxis).r * in_blend_weight_mask.x;
+}
+
+// BLEND NORMALS WHITEOUT =====================================
+// Sub-Func for blending 2 Base + Dirt Layer Normals
+// ============================================================
+vec3 blend_normals_whiteout(vec3 in_base_normal, vec3 in_dirt_normal) {
+	vec3 base_n = normalize(in_base_normal);
+	vec3 dirt_n = normalize(in_dirt_normal);
+
+	return normalize(vec3(
+		base_n.xy + dirt_n.xy,
+		base_n.z * dirt_n.z
+	));
+}
+
+// BLEND NORMALMAPS WHITEOUT MASKED============================
+// Main Func for blending 2 Base + Dirt Layer Normal Maps
+// ============================================================
+vec3 blend_normalmaps_whiteout_masked(
+	vec3 in_base_normal_encoded,
+	vec3 in_dirt_normal_encoded,
+	float in_mask_texsampled,
+	float in_mask_amount
+	)
+	{
+	float mask = clamp(in_mask_texsampled * in_mask_amount, 0.0, 1.0);
+
+	// Decode
+	vec3 base_n = in_base_normal_encoded * 2.0 - 1.0;
+	vec3 dirt_n = in_dirt_normal_encoded * 2.0 - 1.0;
+
+	// Scale dirt detail strength
+	dirt_n = normalize(dirt_n);
+	vec2 dirt_xy = dirt_n.xy * mask;
+	float dirt_z = sqrt(max(1.0 - dot(dirt_xy, dirt_xy), 0.0));
+	vec3 dirt_n_scaled = normalize(vec3(dirt_xy, dirt_z));
+
+	// Whiteout overlay
+	vec3 final_n = blend_normals_whiteout(base_n, dirt_n_scaled);
+
+	// Encode again for Return
+	return final_n * 0.5 + 0.5;
 }
 
 
