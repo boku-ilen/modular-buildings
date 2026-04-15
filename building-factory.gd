@@ -2,7 +2,7 @@ extends Node3D
 class_name BuildingFactory
 
 
-const hinge_material: ShaderMaterial = preload("res://Elements/hinge_corner.tres")
+const hinge_material: ShaderMaterial = preload("res://Materials/TEST/hinge_corner.tres")
 const hinge_corner_script: Script = preload("res://Elements/hinge-corner.gd")
 
 # How much the building blocks may be scaled before using spacers

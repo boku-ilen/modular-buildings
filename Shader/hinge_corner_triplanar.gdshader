@@ -5,9 +5,9 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_sc
 
 instance uniform float bend; // Input coming from hinge-corner.gd
 
-group_uniforms general_parameters;
-uniform vec3 offset_pos_for_bend = vec3(0.0);
-group_uniforms;
+//group_uniforms general_parameters;
+//uniform vec3 offset_pos_for_bend = vec3(0.0);
+//group_uniforms;
 
 void vertex() {
 
@@ -49,7 +49,8 @@ void vertex() {
 	);
 
 	// Update newly calculated varyings
-	trip_v_triplanar_pos = tmp_out_v_triplanar_pos + offset_pos_for_bend;
+	trip_v_triplanar_pos = tmp_out_v_triplanar_pos;
+	//trip_v_triplanar_pos = tmp_out_v_triplanar_pos + offset_pos_for_bend; // Only used for testing with offset
 	trip_v_local_normal = tmp_out_v_local_normal;
 	trip_v_blend_weight_mask = tmp_out_v_blend_weight_mask;
 
