@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://d3n27xjc6c0vj"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://d3n27xjc6c0vj"]
 
 [ext_resource type="Shader" uid="uid://duelq26f3abrp" path="res://Shader/hinge_corner_triplanar.gdshader" id="1_2yd0g"]
 [ext_resource type="Texture2D" uid="uid://dajnykmawwft7" path="res://Textures/BestChecker_UV_1x512.png" id="2_tj2it"]

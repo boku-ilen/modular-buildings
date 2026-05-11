@@ -17,6 +17,10 @@ func build():
 	BuildingFactory.build_building($Elements, metadata)
 	set_owner_recursive($Elements)
 
+func teardown():
+	for child in $Elements.get_children():
+		child.queue_free()
+	await get_tree().process_frame
 
 func set_owner_recursive(node: Node):
 	for child in node.get_children():

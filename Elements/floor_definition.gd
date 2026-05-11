@@ -1,3 +1,4 @@
+@tool
 extends Resource
 class_name FloorDefinition
 
@@ -9,7 +10,8 @@ class_name FloorDefinition
 @export var spacer_block: Mesh
 @export var height := 3.
 
-func _init(_walls, _door, _corner_90, _corner_270, _spacer_block, _height:=3.) -> void:
+
+func _init(_walls = walls, _door = door, _corner_90 = corner_90, _corner_270 = corner_270, _spacer_block = spacer_block, _height:=3.) -> void:
 	door = _door
 	corner_90 = _corner_90
 	corner_270 = _corner_270

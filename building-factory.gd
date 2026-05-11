@@ -22,49 +22,76 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 	
 	var edges: Array[Edge] = _footprint_to_edges(metadata.footprint)
 	building_root.position = metadata.position
-	if edges.is_empty(): 
+	if edges.is_empty():
+		print("no edges @ build_building")
 		return building_root
 	
 	var module_indices := {}
 	var overall_floor_height := 0.
 	
 	var corner_infos = _compute_corner_infos(edges)
+
+	# create mapping of all meshes used to MultiMeshInstances that represent all instances within the building
+	var mesh_multi_map = {}
+	var all_meshes = []
+	for floor_def in metadata.floor_definitions:
+		for wall_mesh in floor_def.walls:
+			all_meshes.append(wall_mesh)
+		all_meshes.append(floor_def.spacer_block)
+		all_meshes.append(floor_def.corner_90)
+		all_meshes.append(floor_def.door)
 	
+	for mesh in all_meshes:
+		if mesh in mesh_multi_map.keys():
+			# skip already known meshes (e.g. for repeated layer definitions)
+			continue
+		mesh_multi_map[mesh] = MultiMeshInstance3D.new()
+		mesh_multi_map[mesh].multimesh = MultiMesh.new()
+		mesh_multi_map[mesh].multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		mesh_multi_map[mesh].multimesh.mesh = mesh
+		# needs to be true so we can set instance parameters (angle,..) 
+		mesh_multi_map[mesh].multimesh.use_custom_data = true
+		# assumption: 2000 instances is enough for any single component mesh (FIXME: is it?)
+		mesh_multi_map[mesh].multimesh.instance_count = 2000
+		mesh_multi_map[mesh].multimesh.visible_instance_count = 0
+		building_root.add_child(mesh_multi_map[mesh])
+
 	# Iterate floors and edges
-	for floor_num in metadata.floor_definitions.size():
-		# Node hierarchy for current floor
-		var floor_root = Node3D.new()
-		floor_root.name = "floor#%d" % floor_num
-		building_root.add_child(floor_root)
-		
+	for floor_num in metadata.floor_definitions.size():		
 		# Meta
 		var floor_assets = metadata.floor_definitions[floor_num]
 		var floor_height = floor_assets.height
 		
+		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
+		for idx in corner_mesh.mesh.get_surface_count():
+			var standard_mat = corner_mesh.mesh.surface_get_material(idx)
+			var shader_mat: ShaderMaterial = hinge_material.duplicate(false)
+			
+			if standard_mat != null:
+				standard_mat = standard_mat.duplicate()
+				utility.copy_standard_to_shader(standard_mat, shader_mat)
+			
+			corner_mesh.mesh.surface_set_material(idx, shader_mat)
 		# Create the corner pieces, the edges will be updated according to they
 		# mesh extent (to guarantee no overlap)
 		for i in edges.size():
 			var edge_current = _populate_corner(
-				floor_root,
 				edges[i], 
-				floor_assets.corner_90, 
+				corner_mesh, 
 				corner_infos[i],
 				overall_floor_height)
-			var edge_root = Node3D.new()
-			edge_root.name = "edge#%d" % i
-			floor_root.add_child(edge_root)
 			
 			# Populate the edges with modules
 			# To ensure a uniform distribution along the floors, store the indices of the same
 			# floor asset packs
 			module_indices = _compute_edges(
-				edge_root, 
 				edge_current.p0,
 				edge_current.p1, 
 				overall_floor_height, 
 				floor_assets.walls, 
 				floor_assets.spacer_block,
-				module_indices)
+				module_indices,
+				mesh_multi_map)
 		
 		overall_floor_height += floor_height
 	
@@ -72,48 +99,37 @@ static func build_building(building_root: Node3D, metadata: BuildingMetadata) ->
 
 # Returns the new edge with regard to the corner
 static func _populate_corner(
-	root: Node3D,
 	edge_i: Edge,
-	corner_mesh: Mesh, 
+	corner_mesh: MultiMesh, 
 	corner_info_i: Dictionary,
 	overall_floor_height: float) -> Edge:
 	# Create a hinge corner asset from the mesh
-	var hinge_corner_instance := MeshInstance3D.new()
-	hinge_corner_instance.mesh = corner_mesh
+	var next_instance_index = corner_mesh.visible_instance_count
+	corner_mesh.visible_instance_count += 1
 	
-	# Write the standard material textures/etc. to the hinge-corner asset
-	for idx in hinge_corner_instance.mesh.get_surface_count():
-		var standard_mat = hinge_corner_instance.mesh.surface_get_material(idx)
-		var shader_mat: ShaderMaterial = hinge_material.duplicate(true)
-		
-		if standard_mat != null:
-			standard_mat = standard_mat.duplicate()
-			utility.copy_standard_to_shader(standard_mat, shader_mat)
-		
-		hinge_corner_instance.mesh.surface_set_material(idx, shader_mat)
-	
-	# Add a script to the meshinstance
-	hinge_corner_instance.mesh = hinge_corner_instance.mesh.duplicate(true)
-	hinge_corner_instance.set_script(hinge_corner_script)
 	
 	# Cached asset extents
-	var asset_extent = ModuleSpecs.get_module_spec(corner_mesh).asset_extent
+	var asset_extent = ModuleSpecs.get_module_spec(corner_mesh.mesh).asset_extent
 	
 	# Create a new edge that respects the extent of the corner asset
 	var subtrahend_0 = edge_i.dir * asset_extent.x 
 	var subtrahend_1 = edge_i.dir * asset_extent.y
 	
-	root.add_child(hinge_corner_instance)
-	hinge_corner_instance.angle = corner_info_i["angle"]
-	hinge_corner_instance.position = corner_info_i["position"]
-	hinge_corner_instance.look_at(
-		corner_info_i.position + Vector3(corner_info_i.direction.x, 0, corner_info_i.direction.y) * 5
-	)
-	hinge_corner_instance.position += Vector3.UP * overall_floor_height
-	
-	# Kind of arbitrary right now, might want to rework this (technical debt)
+	var angle = corner_info_i["angle"] + 0.01
+	if angle > 180:
+		angle = angle / 2 + 135
+	else:
+		angle = angle / 2 - 45
+		
 	var adjustment_angle = 45 if corner_info_i["angle"] < PI else 225
-	hinge_corner_instance.rotate(Vector3.UP, deg_to_rad(adjustment_angle))
+	var corner_transform = Transform3D()\
+		.translated(corner_info_i["position"])\
+		.looking_at(corner_info_i.position + Vector3(corner_info_i.direction.x, 0, corner_info_i.direction.y) * 5)\
+		.translated(Vector3.UP * overall_floor_height)\
+		.rotated_local(Vector3.UP, deg_to_rad(adjustment_angle))
+
+	corner_mesh.set_instance_transform(next_instance_index, corner_transform)
+	corner_mesh.set_instance_custom_data(next_instance_index, Color(deg_to_rad(angle), 0, 0, 0))
 	
 	return Edge.new(edge_i.p0 + subtrahend_0, edge_i.p1 - subtrahend_1)
 
@@ -141,29 +157,31 @@ static func _compute_corner_infos(edges: Array[Edge]) -> Array[Dictionary]:
 
 
 ## Populate a single edge with facade modules
-static func _instance_module(parent: Node3D, mesh: Mesh, module_width: float, scale_x: float,
+static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x: float,
 		p1: Vector2, dir: Vector2, cursor: float, overall_floor_height: float, edge_vec: Vector2, index: int) -> void:
-	var inst := MeshInstance3D.new()
-	inst.mesh = mesh
-	inst.name = "wall_element#%d" % [index]
-	inst.scale.x *= scale_x
+	
+	var new_instance_id = multi_mesh.visible_instance_count
+	multi_mesh.visible_instance_count += 1
 
 	# Position centre‑line of segment along edge
 	var off: Vector2 = dir * (cursor + module_width * scale_x * 0.5)
-	inst.position = Vector3(p1.x + off.x, overall_floor_height, p1.y + off.y)
-
+	
 	# Aim outward (perpendicular to edge)
 	var look_dir = Vector3(edge_vec.x, overall_floor_height, edge_vec.y).cross(Vector3.UP)
-	inst.look_at_from_position(inst.position, inst.position + look_dir)
-
-	parent.add_child(inst)
-
+	var instance_transform = Transform3D()\
+		.translated(Vector3(p1.x + off.x, overall_floor_height, p1.y + off.y))\
+		.looking_at(look_dir + Vector3(p1.x + off.x, overall_floor_height, p1.y + off.y))
+	
+	multi_mesh.set_instance_transform(
+		new_instance_id, 
+		instance_transform
+	)
 
 # ------------------------------------------------
 # _populate_edge with balanced spacers
 # ------------------------------------------------
-static func _compute_edges(parent: Node3D, p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array, spacer_block: Mesh, module_indices: Dictionary) -> Dictionary:
+static func _compute_edges(p1: Vector2, p2: Vector2,
+		overall_floor_height: float, floor_assets: Array, spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
@@ -188,6 +206,7 @@ static func _compute_edges(parent: Node3D, p1: Vector2, p2: Vector2,
 	var use_fillers := false
 	var spacers := {"left": [], "right": [], "scale": 1.}
 	var module_scale := 1.0
+
 	while not floor_assets.is_empty():
 		var random_index: int
 		# Not set until first floor has been processed
@@ -241,21 +260,21 @@ static func _compute_edges(parent: Node3D, p1: Vector2, p2: Vector2,
 
 	# 2a) Leading spacers
 	for i in spacers["left"]:
-		_instance_module(parent, spacer_block, spacer_width, spacers["scale"],
+		_instance_module(multi_mesh_map[spacer_block].multimesh, spacer_width, spacers["scale"],
 			p1, dir, cursor, overall_floor_height, edge_vec, i)
 		cursor += spacer_width * spacers["scale"]
 
 	# 2b) Main building modules
 	var index := 0
 	for m in modules:
-		_instance_module(parent, m["mesh"], m["width"], module_scale,
+		_instance_module(multi_mesh_map[m["mesh"]].multimesh, m["width"], module_scale,
 			p1, dir, cursor, overall_floor_height, edge_vec, index)
 		cursor += m.width * module_scale
 		index += 1
 
 	# 2c) Trailing spacers
 	for i in spacers["right"]:
-		_instance_module(parent, spacer_block, spacer_width, spacers["scale"],
+		_instance_module(multi_mesh_map[spacer_block].multimesh, spacer_width, spacers["scale"],
 			p1, dir, cursor, overall_floor_height, edge_vec, i)
 		cursor += spacer_width * spacers["scale"]
 	

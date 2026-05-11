@@ -30,7 +30,8 @@ void vertex() {
 	UV = UV * uv1_scale.xy + uv1_offset.xy;
 
 	// Corner Bending
-	float angle = bend * sign(VERTEX.x + VERTEX.z);
+	//float angle = bend * sign(VERTEX.x + VERTEX.z);
+	float angle = INSTANCE_CUSTOM.x * sign(VERTEX.x + VERTEX.z);
 	if (abs(VERTEX.x + VERTEX.z) < 0.01) angle = 0.0;
 
 	mat3 rotation = mat3(
