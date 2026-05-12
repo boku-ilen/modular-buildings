@@ -57,7 +57,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Meshes/Processed/Iteration01/SocketOut_CornerOut_0.35x1.0.res",
+"save_to_file/fallback_path": "res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_CornerOut_0.35x1.0.res",
 "save_to_file/path": "uid://cu2ufby6jgbsi"
 }
 }

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://c6nev8recemc4"]
+
+[ext_resource type="ArrayMesh" uid="uid://148s1odttvni" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_CornerOut_0.25x3.0.res" id="1_84h18"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="2_jlqqv"]
+[ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="3_oinub"]
+[ext_resource type="ArrayMesh" uid="uid://cn0v31upneed2" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window01_2.0x3.0.res" id="5_vfwpw"]
+[ext_resource type="ArrayMesh" uid="uid://dfb1hgb0uydug" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res" id="6_3d2tw"]
+
+[resource]
+script = ExtResource("2_jlqqv")
+walls = Array[Mesh]([ExtResource("5_vfwpw"), ExtResource("6_3d2tw")])
+corner_90 = ExtResource("1_84h18")
+spacer_block = ExtResource("3_oinub")
+metadata/_custom_type_script = "uid://1cryccueq7u4"

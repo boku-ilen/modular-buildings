@@ -1,7 +1,7 @@
 extends Node
 
 @export var building_base: BuildingBase
-@export var metadata: BuildingMetadata
+@export var metadata: ModularBuildingMetadata
 @export var test_type: TestType
 enum TestType {
 	Creation,

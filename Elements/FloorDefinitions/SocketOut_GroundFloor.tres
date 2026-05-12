@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="FloorDefinition" load_steps=5 format=3 uid="uid://b5pm411qyw0kj"]
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://b5pm411qyw0kj"]
 
-[ext_resource type="ArrayMesh" uid="uid://kacrofarb6i" path="res://Meshes/Processed/Iteration01/SocketOut_CornerIn_0.25x1.0.res" id="1_ylyqk"]
-[ext_resource type="ArrayMesh" uid="uid://d4asjxiy46hmu" path="res://Meshes/Processed/Iteration01/SocketOut_CornerOut_0.35x1.0.res" id="2_188mj"]
-[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="3_rtovt"]
-[ext_resource type="ArrayMesh" uid="uid://c56c7mmrpmjn8" path="res://Meshes/Processed/Iteration01/SocketOut_Spacer_2.0x1.0.res" id="4_qpasl"]
+[ext_resource type="ArrayMesh" uid="uid://b0tiuhcg2gmjs" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_CornerIn_0.25x1.0.res" id="1_ylyqk"]
+[ext_resource type="ArrayMesh" uid="uid://cu2ufby6jgbsi" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_CornerOut_0.35x1.0.res" id="2_188mj"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="3_rtovt"]
+[ext_resource type="ArrayMesh" uid="uid://bdm6naxq2pcb8" path="res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_Spacer_2.0x1.0.res" id="4_qpasl"]
 
 [resource]
 script = ExtResource("3_rtovt")

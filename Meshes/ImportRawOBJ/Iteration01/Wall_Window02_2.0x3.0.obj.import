@@ -41,27 +41,27 @@ _subresources={
 "materials": {
 "Wall_Default": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Wall_Default.tres",
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_Default.tres",
 "use_external/path": "uid://dg4eeo60vjovp"
 },
 "Wall_Dressing": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Wall_Dressing.tres",
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_Dressing.tres",
 "use_external/path": "uid://bb3svbftyu34v"
 },
 "Window_Frame": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Window_Frame.tres",
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Window_Frame.tres",
 "use_external/path": "uid://biwff110p2k6i"
 },
 "Window_Glass": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Window_Glass.tres",
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Window_Glass.tres",
 "use_external/path": "uid://bmemvs3mm4wc7"
 },
 "Window_Sill": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Window_Sill.tres",
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Window_Sill.tres",
 "use_external/path": "uid://bh5tblqn1br50"
 }
 },
@@ -72,7 +72,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Meshes/Processed/Iteration01/Wall_Window02_2.0x3.0.res",
+"save_to_file/fallback_path": "res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res",
 "save_to_file/path": "uid://dfb1hgb0uydug"
 }
 }

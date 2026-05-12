@@ -1,17 +1,15 @@
-[gd_resource type="Resource" script_class="FloorDefinition" load_steps=8 format=3 uid="uid://dss4wvhxo55dg"]
+[gd_resource type="Resource" script_class="FloorDefinition" format=3 uid="uid://dss4wvhxo55dg"]
 
-[ext_resource type="ArrayMesh" uid="uid://5dmeg7fp8uvc" path="res://Meshes/Processed/Iteration01/Wall_CornerIn_0.25x3.0.res" id="1_ghog7"]
-[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://Elements/floor_definition.gd" id="1_kyghp"]
-[ext_resource type="ArrayMesh" uid="uid://b2kb3sx6g3gc0" path="res://Meshes/Processed/Iteration01/Wall_CornerOut_0.25x3.0.res" id="2_8lnlg"]
-[ext_resource type="ArrayMesh" uid="uid://6de24oivire4" path="res://Meshes/Processed/Iteration01/Wall_Spacer_2.0x3.0.res" id="4_dctpq"]
-[ext_resource type="ArrayMesh" uid="uid://dm1spkpxnb0g5" path="res://Meshes/Processed/Iteration01/Wall_Door01_2.0x3.0.res" id="5_cgjns"]
-[ext_resource type="ArrayMesh" uid="uid://bqo2hkrfpvyd5" path="res://Meshes/Processed/Iteration01/Wall_Window01_2.0x3.0.res" id="6_vwgny"]
-[ext_resource type="ArrayMesh" uid="uid://bgsjlan8vg66y" path="res://Meshes/Processed/Iteration01/Wall_Window02_2.0x3.0.res" id="7_886ml"]
+[ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_kyghp"]
+[ext_resource type="ArrayMesh" uid="uid://148s1odttvni" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_CornerOut_0.25x3.0.res" id="2_8lnlg"]
+[ext_resource type="ArrayMesh" uid="uid://dft05s8yfxebt" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Spacer_2.0x3.0.res" id="4_dctpq"]
+[ext_resource type="ArrayMesh" uid="uid://dc771316vcmav" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Door01_2.0x3.0.res" id="5_cgjns"]
+[ext_resource type="ArrayMesh" uid="uid://cn0v31upneed2" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window01_2.0x3.0.res" id="6_vwgny"]
+[ext_resource type="ArrayMesh" uid="uid://dfb1hgb0uydug" path="res://addons/modular_buildings/example/Meshes/Iteration01/Wall_Window02_2.0x3.0.res" id="7_886ml"]
 
 [resource]
 script = ExtResource("1_kyghp")
 walls = Array[Mesh]([ExtResource("5_cgjns"), ExtResource("6_vwgny"), ExtResource("7_886ml")])
 corner_90 = ExtResource("2_8lnlg")
-corner_270 = ExtResource("1_ghog7")
 spacer_block = ExtResource("4_dctpq")
 metadata/_custom_type_script = "uid://1cryccueq7u4"

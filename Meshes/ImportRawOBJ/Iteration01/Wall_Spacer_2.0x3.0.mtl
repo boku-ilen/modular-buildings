@@ -1,7 +1,7 @@
-# Blender 4.5.3 LTS MTL File: 'Modular-Buildings.blend'
+# Blender 5.1.1 MTL File: 'door1.blend'
 # www.blender.org
 
-newmtl Wall_Default
+newmtl Wall_Default.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.745284 0.800007 0.540156

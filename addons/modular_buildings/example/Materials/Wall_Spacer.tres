@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://muce7al3g4qj"]
+
+[ext_resource type="Shader" uid="uid://b3dsnau3hqshq" path="res://addons/modular_buildings/Shader/stretchable_spacer.gdshader" id="1_kpfap"]
+[ext_resource type="Texture2D" uid="uid://fifpn82a6nyk" path="res://addons/modular_buildings/example/Textures/red_brick_diff_2k.jpg" id="2_oy54y"]
+[ext_resource type="Texture2D" uid="uid://bb6bnfy3y1up8" path="res://addons/modular_buildings/example/Textures/red_brick_nor_gl_2k.png" id="3_bymqh"]
+[ext_resource type="Texture2D" uid="uid://dlku50e0uq3y" path="res://addons/modular_buildings/example/Textures/red_brick_rough_2k.jpg" id="3_ovpbn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_kpfap")
+shader_parameter/stretch_dbg = 3.9050000000000002
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_texture = ExtResource("2_oy54y")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.10000000149012
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/texture_roughness = ExtResource("3_ovpbn")
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/normal_texture = ExtResource("3_bymqh")
+shader_parameter/normal_scale = 1.000000807500001
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)

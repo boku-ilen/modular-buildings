@@ -4,7 +4,7 @@ class_name BuildingBase
 
 
 @export_tool_button("Build!") var build_it = build
-@export var metadata: BuildingMetadata
+@export var metadata: ModularBuildingMetadata
 
 func _ready():
 	update_gizmos()
