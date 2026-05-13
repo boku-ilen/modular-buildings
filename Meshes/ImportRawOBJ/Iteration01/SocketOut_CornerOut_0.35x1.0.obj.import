@@ -39,15 +39,10 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Wall_Default": {
+"Wall_SocketOut.001": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Wall_Default.tres",
-"use_external/path": "uid://dg4eeo60vjovp"
-},
-"Wall_SocketOut": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Materials/Wall_SocketOut.tres",
-"use_external/path": "uid://dhaemwoi7nne"
+"use_external/fallback_path": "res://addons/modular_buildings/Material/hinge_corner.tres",
+"use_external/path": "uid://de76ykjsff15p"
 }
 },
 "meshes": {

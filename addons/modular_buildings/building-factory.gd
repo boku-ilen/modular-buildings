@@ -50,7 +50,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		mesh_multi_map[mesh].multimesh.mesh = mesh
 		# needs to be true so we can set instance parameters (angle,..) 
 		mesh_multi_map[mesh].multimesh.use_custom_data = true
-		# assumption: 2000 instances is enough for any single component mesh (FIXME: is it?)
+		# assumption: 2000 instances is enough for any single component mesh -> more instances means more memory!
 		mesh_multi_map[mesh].multimesh.instance_count = 2000
 		mesh_multi_map[mesh].multimesh.visible_instance_count = 0
 		building_root.add_child(mesh_multi_map[mesh])
@@ -93,6 +93,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				mesh_multi_map)
 		
 		overall_floor_height += floor_height
+		if overall_floor_height >= metadata.building_height:
+			break
 	
 	return building_root
 
@@ -114,24 +116,28 @@ static func _populate_corner(
 	var subtrahend_0 = edge_i.dir * asset_extent.x 
 	var subtrahend_1 = edge_i.dir * asset_extent.y
 	
-	var angle = corner_info_i["angle"] + 0.01
-	if angle > 180:
-		angle = angle / 2 + 135
-	else:
-		angle = angle / 2 - 45
-		
-	var adjustment_angle = 45 if corner_info_i["angle"] < PI else 225
+
 	var corner_transform = Transform3D()\
 		.translated(corner_info_i["position"])\
 		.looking_at(corner_info_i.position + Vector3(corner_info_i.direction.x, 0, corner_info_i.direction.y) * 5)\
-		.translated(Vector3.UP * overall_floor_height)\
-		.rotated_local(Vector3.UP, deg_to_rad(adjustment_angle))
+		.translated(Vector3.UP * overall_floor_height)#\
+		#.rotated_local(Vector3.UP, deg_to_rad(adjustment_angle))
 
 	corner_mesh.set_instance_transform(next_instance_index, corner_transform)
-	corner_mesh.set_instance_custom_data(next_instance_index, Color(deg_to_rad(angle), 0, 0, 0))
+	corner_mesh.set_instance_custom_data(next_instance_index, Color(corner_info_i["angle"], 0, 0, 0))
 	
 	return Edge.new(edge_i.p0 + subtrahend_0, edge_i.p1 - subtrahend_1)
 
+# Calculate the mean (middle) angle between two angles in radians.
+static func _mean_angle(alpha: float, beta: float)-> float:
+	var smallest = min(alpha, beta) + PI
+	var largest = max(alpha, beta) + PI
+	var result = smallest + (largest - smallest) / 2
+	# special case: distance via the wrap point 2*PI+x === 0+x smaller than straight distance
+	# theoretically ambiguous at exactly largest-smallest = PI
+	if 2*PI - largest + smallest < largest - smallest and not largest - smallest - PI < 0.0001:
+		result = smallest - (2*PI - largest + smallest) / 2
+	return result - PI
 
 static func _compute_corner_infos(edges: Array[Edge]) -> Array[Dictionary]:
 	var corner_infos: Array[Dictionary] = []
@@ -143,14 +149,14 @@ static func _compute_corner_infos(edges: Array[Edge]) -> Array[Dictionary]:
 		# Determine the angle to the next edge 
 		var edge_current: Edge = edges[i]
 		var edge_next: Edge = edges[(i+1) % edges.size()]
-		corner_infos[i]["angle"] = rad_to_deg((edge_current.dir).angle_to(edge_next.dir))
+
+		corner_infos[i]["angle"] = (edge_current.dir).angle_to(edge_next.dir)
 		
 		# Correct transformation (position and rotation)
 		var corner_position = edge_current.p1
 		corner_infos[i]["position"] = Vector3(corner_position.x, 0, corner_position.y)
-		# Rather arbitrarily (technical debt) rotation has to be applied, 
-		# we might fix this and export the corners more adequately
-		corner_infos[i]["direction"] = (edge_current.dir - edge_next.dir)
+		
+		corner_infos[i]["direction"] = Vector2.from_angle(_mean_angle(edge_current.dir.angle(), edge_next.dir.angle()))
 		
 	return corner_infos
 

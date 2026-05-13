@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://1cryccueq7u4" path="res://addons/modular_buildings/Model/floor_definition.gd" id="1_8xnjq"]
 [ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="2_hwtas"]
 [ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_egmm3"]
-[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/building-metadata.gd" id="4_4gekq"]
+[ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="4_4gekq"]
 [ext_resource type="Resource" uid="uid://c6nev8recemc4" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows.tres" id="4_egmm3"]
 
 [resource]

@@ -31,14 +31,22 @@ void vertex() {
 
 	// Corner Bending
 	//float angle = bend * sign(VERTEX.x + VERTEX.z);
-	float angle = INSTANCE_CUSTOM.x * sign(VERTEX.x + VERTEX.z);
-	if (abs(VERTEX.x + VERTEX.z) < 0.01) angle = 0.0;
+	// angle is halved since both sides are each rotated by this value
+	// and PI/4.0 is subtracted to match the look_at direction 
+	float angle = INSTANCE_CUSTOM.x * sign(VERTEX.x + VERTEX.z) * 0.5 - PI/4.0;
+	
+	// correction for the right angle initial state
+	angle -= PI/4.0 * sign(VERTEX.x + VERTEX.z);
 
+	if (abs(VERTEX.x + VERTEX.z) < 0.1) angle = -PI/4.0;
+
+	// (column-major notation) y-rotation matrix
 	mat3 rotation = mat3(
 		vec3(cos(angle), 0.0, -sin(angle)),
 		vec3(0.0, 1.0, 0.0),
 		vec3(sin(angle), 0.0, cos(angle))
 	);
+
 
 	VERTEX = rotation * VERTEX;
 	NORMAL = rotation * NORMAL;

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://63i8qat1c5uo"
-path="res://.godot/imported/SocketOut_Spacer_2.0x1.0.obj-d37ea0aba42fd72e694a767b2a2cce2b.scn"
+uid="uid://b70ij4lndf7wo"
+path="res://.godot/imported/SocketOut_Wall_2.0x1.0.obj-6044e115bff0e09785cb667547a0074a.scn"
 
 [deps]
 
-source_file="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_Spacer_2.0x1.0.obj"
-dest_files=["res://.godot/imported/SocketOut_Spacer_2.0x1.0.obj-d37ea0aba42fd72e694a767b2a2cce2b.scn"]
+source_file="res://Meshes/ImportRawOBJ/Iteration01/SocketOut_Wall_2.0x1.0.obj"
+dest_files=["res://.godot/imported/SocketOut_Wall_2.0x1.0.obj-6044e115bff0e09785cb667547a0074a.scn"]
 
 [params]
 
@@ -41,19 +41,19 @@ _subresources={
 "materials": {
 "Wall_SocketOut": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_SocketOut_Spacer.tres",
-"use_external/path": "uid://bduebsrraip24"
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_SocketOut.tres",
+"use_external/path": "uid://dhaemwoi7nne"
 }
 },
 "meshes": {
-"SocketOut_Spacer_2.0x1.0": {
+"SocketOut_Wall_2.0x1.0": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 20.0,
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_Spacer_2.0x1.0.res",
-"save_to_file/path": "uid://bdm6naxq2pcb8"
+"save_to_file/fallback_path": "res://addons/modular_buildings/example/Meshes/Iteration01/SocketOut_Wall_2.0x1.0.res",
+"save_to_file/path": "uid://cht26xm4478ax"
 }
 }
 }

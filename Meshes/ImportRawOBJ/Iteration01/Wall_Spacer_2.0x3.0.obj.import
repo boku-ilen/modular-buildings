@@ -41,8 +41,8 @@ _subresources={
 "materials": {
 "Wall_Default.002": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_Default.tres",
-"use_external/path": "uid://dg4eeo60vjovp"
+"use_external/fallback_path": "res://addons/modular_buildings/example/Materials/Wall_Spacer.tres",
+"use_external/path": "uid://muce7al3g4qj"
 }
 },
 "meshes": {
