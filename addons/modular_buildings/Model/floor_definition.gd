@@ -2,7 +2,7 @@
 extends Resource
 class_name FloorDefinition
 
-@export var walls: Array[Mesh]
+@export var walls: Array[WallTileDefinition]
 @export var door: Mesh
 @export var corner_90: Mesh
 # A minimal element to fill where other assets do not fit

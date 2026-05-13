@@ -34,8 +34,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 	var mesh_multi_map = {}
 	var all_meshes = []
 	for floor_def in metadata.floor_definitions:
-		for wall_mesh in floor_def.walls:
-			all_meshes.append(wall_mesh)
+		for wall_def in floor_def.walls:
+			all_meshes.append(wall_def.model)
 		all_meshes.append(floor_def.spacer_block)
 		all_meshes.append(floor_def.corner_90)
 		all_meshes.append(floor_def.door)
@@ -186,7 +186,7 @@ static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _compute_edges(p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array, spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
@@ -211,23 +211,21 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 	var use_fillers := false
 	var spacers := {"left": [], "right": [], "scale": 1.}
 	var module_scale := 1.0
-
+	var last_module_index = -1
 	while not floor_assets.is_empty():
-		var random_index: int
-		# Not set until first floor has been processed
-		if not module_indices_set:
-			if not floor_assets in module_indices:
-				module_indices[floor_assets] = []
-			random_index = randi() % floor_assets.size()
-			module_indices[floor_assets].append(random_index)
-		else:
-			# We have to use modulo because if the modules of each floor are not uniformly sized,
-			# the current_block_index may be bigger than in the module_indices defined in the first
-			# iteration.
-			# TODO: Think about a smarter way too approach this
-			random_index = module_indices[floor_assets][current_block_index % module_indices[floor_assets].size()]
-		
-		var mesh: Mesh = floor_assets[random_index]
+		var random_index: int = last_module_index
+		var valid_found = false
+		while not valid_found:
+			var biased_random = []
+			for wall_tile_i in range(len(floor_assets)):
+				biased_random.append({"bias": floor_assets[wall_tile_i].probability * randf(), "index": wall_tile_i})
+			biased_random.sort_custom(func (a,b): return a["bias"] > b["bias"])
+			random_index = biased_random[0]["index"]
+			if last_module_index < 0:
+				break
+			valid_found = floor_assets[random_index].may_repeat or random_index != last_module_index
+		last_module_index = random_index
+		var mesh: Mesh = floor_assets[random_index].model
 		
 		# FIXME: properly handle this case which may well occur depending on alternating
 		# floor definitions (e.g. 1st floor 3 assets, 2nd floor 5 assets)
