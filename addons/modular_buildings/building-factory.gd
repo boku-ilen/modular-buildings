@@ -71,6 +71,18 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				BuildingUtility.copy_standard_to_shader(standard_mat, shader_mat)
 			
 			corner_mesh.mesh.surface_set_material(idx, shader_mat)
+		
+		var point_edge_mapping = {}
+		for feature_id in metadata.feature_positions:
+			point_edge_mapping[feature_id] = []
+			for point in metadata.feature_positions[feature_id]:
+				var distances = []
+				for i in edges.size():
+					var closest_p = Geometry2D.get_closest_point_to_segment(point, edges[i].p0, edges[i].p1)
+					distances.append([i, (point - closest_p).length(), closest_p])
+				distances.sort_custom(func (l1, l2): return l1[1] < l2[1])
+				point_edge_mapping[feature_id].append([distances[0][0], distances[0][2]])
+		
 		# Create the corner pieces, the edges will be updated according to they
 		# mesh extent (to guarantee no overlap)
 		for i in edges.size():
@@ -83,6 +95,15 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 			# Populate the edges with modules
 			# To ensure a uniform distribution along the floors, store the indices of the same
 			# floor asset packs
+			
+			var points_on_edge: Dictionary[String, Array] = {}
+			for k in metadata.feature_positions:
+				points_on_edge.set(k, [])
+				for point_i in metadata.feature_positions[k].size():
+					if point_edge_mapping[k][point_i][0] == i:
+						points_on_edge[k].append(point_edge_mapping[k][point_i][1])
+					#points_
+				print(points_on_edge[k])
 			module_indices = _compute_edges(
 				edge_current.p0,
 				edge_current.p1, 
@@ -90,7 +111,8 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				floor_assets.walls, 
 				floor_assets.spacer_block,
 				module_indices,
-				mesh_multi_map)
+				mesh_multi_map,
+				points_on_edge)
 		
 		overall_floor_height += floor_height
 		if overall_floor_height >= metadata.building_height:
@@ -186,7 +208,7 @@ static func _instance_module(multi_mesh: MultiMesh, module_width: float, scale_x
 # _populate_edge with balanced spacers
 # ------------------------------------------------
 static func _compute_edges(p1: Vector2, p2: Vector2,
-		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary) -> Dictionary:
+		overall_floor_height: float, floor_assets: Array[WallTileDefinition], spacer_block: Mesh, module_indices: Dictionary, multi_mesh_map: Dictionary, feature_offsets: Dictionary[String, Array]) -> Dictionary:
 	var edge_vec: Vector2 = p2 - p1
 	var edge_length: float = edge_vec.length()
 	if edge_length < 0.01:
@@ -234,6 +256,18 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 			break
 		
 		var module_width := mesh.get_aabb().size.x
+		var potential_positioned_features = floor_assets.filter(func (w): return w.facade_feature_id in feature_offsets.keys())
+		if len(potential_positioned_features) > 0:
+			# candidate for placement, check if close enough
+			var candidate_mesh: Mesh = potential_positioned_features[0].model
+			var candidate_width = candidate_mesh.get_aabb().size.x
+			print(used_width + candidate_width)
+
+			if feature_offsets[potential_positioned_features[0].facade_feature_id].any(func (off): return (off - (p1 + ((p2-p1).normalized()) * (used_width + candidate_width / 2))).length() < candidate_width / 2):
+				print("Found")
+				mesh = candidate_mesh
+				last_module_index = floor_assets.find(potential_positioned_features[0])
+				module_width = candidate_width
 		# In case no more module fits, decide wether scaling is an option or to use spacers 
 #		if used_width + module_width > edge_length:
 #			module_scale = (edge_length / (used_width + module_width))
@@ -249,6 +283,7 @@ static func _compute_edges(p1: Vector2, p2: Vector2,
 #			current_block_index += 1
 #			break
 		if used_width + module_width > edge_length:
+			print("reached len at " + str(current_block_index))
 			break
 			
 		modules.append({"mesh": mesh, "width": module_width})

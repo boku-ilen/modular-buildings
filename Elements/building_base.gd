@@ -14,6 +14,7 @@ func _ready():
 func build():
 	for child in $Elements.get_children():
 		child.queue_free()
+	metadata.feature_positions["door"][0] = Vector2($DoorProxy.position.x, $DoorProxy.position.z)
 	BuildingFactory.build_building($Elements, metadata)
 	set_owner_recursive($Elements)
 

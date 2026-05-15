@@ -5,14 +5,16 @@
 [ext_resource type="Resource" uid="uid://5f7qdex0krmx" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows+Door.tres" id="3_2rabg"]
 [ext_resource type="Resource" uid="uid://c6nev8recemc4" path="res://addons/modular_buildings/example/FloorDefinitions/Wall+Windows.tres" id="4_2rabg"]
 [ext_resource type="Script" uid="uid://c4ccw7ed8c4tf" path="res://addons/modular_buildings/Model/modular_building_metadata.gd" id="4_kwwor"]
-[ext_resource type="Resource" uid="uid://ne8rn60aw4m" path="res://addons/modular_buildings/example/FloorDefinitions/SocketOut_GroundFloor.tres" id="5_t0bu1"]
 
 [resource]
 script = ExtResource("4_kwwor")
 name = "Building1"
 building_height = 7.88
 roof_height = 1.69
-footprint = Array[Vector2]([Vector2(-119.88279, 48.00787), Vector2(-119.41098, 33.50538), Vector2(-45.245903, 12.044689), Vector2(-62.84172, 65.34073), Vector2(-42.939064, 114.09158), Vector2(-101.77463, 105.82214), Vector2(-149.24423, 101.411224), Vector2(-160.23242, 51.748936)])
+footprint = Array[Vector2]([Vector2(-127.91361, 42.713932), Vector2(-108.15021, 36.75653), Vector2(-60.88854, 13.944048), Vector2(-58.476284, 51.98091), Vector2(-59.003754, 73.542114), Vector2(-78.81642, 78.83759), Vector2(-94.44977, 61.627968), Vector2(-127.58039, 60.22751)])
 height = 1.795
-floor_definitions = Array[ExtResource("1_h64s3")]([ExtResource("2_2rabg"), ExtResource("3_2rabg"), ExtResource("4_2rabg"), ExtResource("5_t0bu1")])
+floor_definitions = Array[ExtResource("1_h64s3")]([ExtResource("2_2rabg"), ExtResource("3_2rabg"), ExtResource("4_2rabg")])
+feature_positions = Dictionary[String, Array]({
+"door": [Vector2(-128.639, 51.609)]
+})
 metadata/_custom_type_script = "uid://c4ccw7ed8c4tf"

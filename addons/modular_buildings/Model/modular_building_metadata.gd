@@ -13,3 +13,4 @@ class_name ModularBuildingMetadata
 @export var height: float = 8.0
 @export var position := Vector3.ZERO
 @export var floor_definitions: Array[FloorDefinition]
+@export var feature_positions: Dictionary[String, Array]

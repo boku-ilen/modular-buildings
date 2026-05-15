@@ -17,7 +17,6 @@ func _redraw(gizmo: EditorNode3DGizmo):
 	gizmo.clear()
 	var node := gizmo.get_node_3d()
 	gizmo.add_handles(_2d_to_3d(node.metadata.footprint), get_material("handles", gizmo), [])
-	
 	var lines = []
 	for i in node.metadata.footprint.size() - 1:
 		var from = node.metadata.footprint[i]
