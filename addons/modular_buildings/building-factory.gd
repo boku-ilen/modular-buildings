@@ -56,9 +56,11 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 		building_root.add_child(mesh_multi_map[mesh])
 
 	# Iterate floors and edges
-	for floor_num in metadata.floor_definitions.size():		
+	var floor_num = 0
+	while overall_floor_height < metadata.building_height:		
 		# Meta
-		var floor_assets = metadata.floor_definitions[floor_num]
+		
+		var floor_assets = metadata.floor_definitions[min(floor_num, len(metadata.floor_definitions) - 1)]
 		var floor_height = floor_assets.height
 		
 		var corner_mesh = mesh_multi_map[floor_assets.corner_90].multimesh
@@ -115,6 +117,7 @@ static func build_building(building_root: Node3D, metadata: ModularBuildingMetad
 				points_on_edge)
 		
 		overall_floor_height += floor_height
+		floor_num += 1
 		if overall_floor_height >= metadata.building_height:
 			break
 	
